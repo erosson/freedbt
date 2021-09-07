@@ -4,8 +4,9 @@ import Dexie from 'dexie'
 
 import * as PageNotFound from './Page/NotFound'
 import * as PageDebug from './Page/Debug'
-import * as PageHome from './Page/Home'
-import * as PageEntry from './Page/Entry'
+import * as PageEntryList from './Page/Entry/List'
+import * as PageEntryShow from './Page/Entry/Show'
+import * as PageEntryCreate from './Page/Entry/Create'
 
 export type RouteSpec = {path: string, exact?: boolean, component: {
   MemoryComponent: (p:{state: DBMemory.State, dispatch: Model.Dispatch}) => JSX.Element,
@@ -13,8 +14,10 @@ export type RouteSpec = {path: string, exact?: boolean, component: {
 }}
 
 export const routes: Array<RouteSpec> = [
-  {exact: true, path: '/', component: PageHome},
+  {exact: true, path: '/', component: PageEntryList},
+  {exact: true, path: '/entries', component: PageEntryList},
+  {exact: true, path: '/entries/create', component: PageEntryCreate},
+  {exact: true, path: '/entries/:id', component: PageEntryShow},
   {exact: true, path: '/debug', component: PageDebug},
-  {exact: true, path: '/entry/:id', component: PageEntry},
   {path: '*', component: PageNotFound},
 ]
