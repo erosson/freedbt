@@ -5,16 +5,12 @@ export type State
 export interface Counter {
   count: number
 }
-export const initState: State = {ready: false}
 export const initCounter: Counter = {count: 0}
 
 export type Action
-  = {type: 'noop'}
-  | {type: 'reset'}
-  | {type: 'load', counter: Counter}
+  = {type: 'reset'}
   | {type: 'increment'}
   | {type: 'decrement'}
-  ;
 
 export type Dispatch = (a:Action) => void;
 export type Props = {state: State, dispatch: Dispatch}
