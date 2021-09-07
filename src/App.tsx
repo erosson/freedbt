@@ -1,90 +1,27 @@
-import React from 'react';
-// import * as Automerge from 'automerge';
-import Dexie from 'dexie';
-import './App.css';
+import './App.css'
+import React from 'react'
+import {BrowserRouter as Router} from 'react-router-dom'
+import * as Model from './Model'
 
-type State
-  = {ready: false}
-  | {ready: true, counter: Counter}
+import DBMemory from './DB/Memory'
+import DBDexie from './DB/Dexie'
 
-interface Counter {
-  count: number
-}
-
-const initState: State = {ready: false}
-const initCounter: Counter = {count: 0}
-
-type Action
-  = {type: 'reset'}
-  | {type: 'load', counter: Counter}
-  | {type: 'increment'}
-  | {type: 'decrement'}
-  ;
-
-function reducer(state: State, action: Action): State {
-  console.log('reducer', action)
-  if (state.ready) {
-    switch (action.type) {
-      case 'reset':
-        return {...state, counter: {...state.counter, ...initCounter}}
-      case 'load':
-        return {...state, counter: action.counter}
-      case 'increment':
-        return {...state, counter: {...state.counter, count: state.counter.count + 1}}
-      case 'decrement':
-        return {...state, counter: {...state.counter, count: state.counter.count - 1}}
-    }
-  }
-  else {
-    switch(action.type) {
-      case 'reset':
-        return {ready: true, counter: initCounter}
-      case 'load':
-        return {ready: true, counter: action.counter}
-      default:
-        return state
-    }
-  }
-}
-
-export function database() {
-  const db = new Dexie('test')
-  db.version(1).stores({
-    counter: '++id',
-  })
-  return db
-}
+import PageNotFound from './Page/NotFound'
+import PageHome from './Page/Home'
+import PageDebug from './Page/Debug'
 
 function Main() {
-  // const [state, dispatch]: [State, React.Dispatch<Action>] = React.useReducer(reducer, init)
-  const [state, dispatch] = React.useReducer(reducer, initState)
-  React.useEffect(() => {(async () => {
-    const db = database()
-    const counter = await db.table('counter').toCollection().first()
-    dispatch(
-      counter
-        ? {type: 'load', counter}
-        : {type: 'reset'}
-    )
-  })()}, [])
-  React.useEffect(() => {
-    if (state.ready) {
-      const db = database()
-      console.log('put', state.counter)
-      db.table('counter').put(state.counter)
-    }
-  }, [state])
-  if (!state.ready) {
-    return <div className="App">loading...</div>
-  }
+  const routes: Array<Model.RouteSpec> = [
+    {exact: true, path: '/', component: PageHome},
+    {exact: true, path: '/debug', component: PageDebug},
+    {path: '*', component: PageNotFound},
+  ]
   return (
-    <div className="App">
-      count: {state.counter.count}
-      <button onClick={() => dispatch({type: 'increment'})}>+</button>
-      <button onClick={() => dispatch({type: 'decrement'})}>-</button>
-      <button onClick={() => dispatch({type: 'reset'})}>Reset</button>
-    </div>
-  );
+    <Router>
+      <DBMemory routes={routes} />
+      <DBDexie routes={routes} />
+    </Router>
+  )
 }
 
 export default Main;
