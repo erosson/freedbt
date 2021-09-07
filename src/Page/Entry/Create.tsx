@@ -11,9 +11,8 @@ function Main(p: {dispatch: Model.Dispatch}) {
   const onCreate = (event: React.SyntheticEvent) => {
     event.preventDefault()
     const createdAt = new Date()
-    const data: Model.Entry = {type: 'journal', createdAt, updatedAt: createdAt, body}
+    const data: Model.JournalEntry = {type: 'journal', createdAt, updatedAt: createdAt, body}
     p.dispatch({type: 'entry.create', data})
-    setBody('')
     created.current = true
   }
   if (created.current) {

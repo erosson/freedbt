@@ -45,7 +45,7 @@ function JournalEntry(p: {entry: Model.JournalEntry}) {
 }
 function CBTEntry(p: {entry: Model.CBTEntry}) {
   return (
-    <p style={{whiteSpace: 'pre-line'}}>cbt</p>
+    <p style={{whiteSpace: 'pre-line'}}>{p.entry.alternative}</p>
   )
 }
 
