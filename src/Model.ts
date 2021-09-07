@@ -1,17 +1,10 @@
-export type State
-  = {ready: false}
-  | {ready: true, counter: Counter}
-
-export interface Counter {
-  count: number
-}
-export const initCounter: Counter = {count: 0}
+export type Entry
+  = {type: 'journal', body: string}
 
 export type Action
   = {type: 'reset'}
-  | {type: 'increment'}
-  | {type: 'decrement'}
+  | {type: 'entry.create', data: Entry}
+  | {type: 'entry.update', id: number, data: Entry}
+  | {type: 'entry.delete', id: number}
 
 export type Dispatch = (a:Action) => void;
-export type Props = {state: State, dispatch: Dispatch}
-export type RouteSpec = {path: string, exact?: boolean, component: (p:Props) => JSX.Element}

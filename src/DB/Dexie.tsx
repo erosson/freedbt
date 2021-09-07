@@ -1,62 +1,47 @@
 import React from 'react'
 import Dexie from 'dexie'
-import {useLiveQuery} from 'dexie-react-hooks'
 import * as Router from 'react-router-dom'
 import * as Model from '../Model'
-
-type State = Model.State
-type Action
-  = {type: 'wrap', action: Model.Action}
-  | {type: 'noop'}
+import * as Util from '../Util'
+import {RouteSpec} from '../Routes'
 
 function database() {
-  const db = new Dexie('test')
+  const db = new Dexie('test3')
   db.version(1).stores({
-    counter: '++id',
+    entries: '++,type',
+    settings: '',
   })
   return db
 }
 
-function Main({routes}: {routes: Array<Model.RouteSpec>}) {
+function Main({routes}: {routes: Array<RouteSpec>}) {
   const db = React.useRef(database()).current
-  const [action, dispatch]: [Action, (a:Action) => void]
-    = React.useState<Action>({type: 'noop'})
-  const state: State = useLiveQuery(async () => (
-    {ready: true, counter: await db.table('counter').toCollection().first() || Model.initCounter}
-  ), [], {ready: false})
+  // const state: State = useLiveQuery(async () => (
+    // {ready: true, counter: await db.table('counter').toCollection().first() || Model.initCounter}
+  // ), [], {ready: false})
 
-  React.useEffect((): void => {
-    // returning non-void detects missing switch cases
-    ((): null => {
-      if (!state.ready) {
+  const dispatch = Util.useSideEffect((action: Model.Action): null => {
+    switch (action.type) {
+      case 'reset':
+        db.table('entries').clear()
         return null
-      }
-      switch (action.type) {
-        case 'noop':
-          return null
-        case 'wrap':
-          console.log('dexie action', action.action)
-          dispatch({type: 'noop'})
-          switch(action.action.type) {
-            case 'reset':
-              db.table('counter').clear()
-              return null
-            case 'increment':
-              db.table('counter').put({...state.counter, count: state.counter.count + 1})
-              return null
-            case 'decrement':
-              db.table('counter').put({...state.counter, count: state.counter.count - 1})
-              return null
-          }
-      }
-    })()
-  }, [db, state, action])
+      case 'entry.create':
+        db.table('entries').put(action.data)
+        return null
+      case 'entry.update':
+        db.table('entries').update(action.id, action.data)
+        return null
+      case 'entry.delete':
+        db.table('entries').delete(action.id)
+        return null
+    }
+  })
 
   return (
     <Router.Switch>
       {routes.map((route, index) => (
         <Router.Route key={index} exact={route.exact} path={route.path}>
-          <route.component state={state} dispatch={action => dispatch({type: 'wrap', action})} />
+          <route.component.DexieComponent db={db} dispatch={dispatch} />
         </Router.Route>
       ))}
     </Router.Switch>

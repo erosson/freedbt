@@ -1,25 +1,27 @@
 import React from 'react'
 import * as Router from 'react-router-dom'
 import * as Model from '../Model'
+import {RouteSpec} from '../Routes'
 
-type State = Model.State
-type Action = Model.Action
-const initState = {ready: true, counter: Model.initCounter}
+export type State = {entries: Array<Model.Entry>}
+export type Action = Model.Action
+const initState = {entries: []}
 
 function reducer(state: State, action: Action): State {
   console.log('reducer', action)
-  if (!state.ready) return state
   switch (action.type) {
     case 'reset':
       return initState
-    case 'increment':
-      return {...state, counter: {...state.counter, count: state.counter.count + 1}}
-    case 'decrement':
-      return {...state, counter: {...state.counter, count: state.counter.count - 1}}
+    case 'entry.create':
+      return {entries: [action.data, ...state.entries]}
+    case 'entry.update':
+      return {entries: [...state.entries.slice(action.id), action.data, ...state.entries.slice(action.id+1, state.entries.length)]}
+    case 'entry.delete':
+      return {entries: [...state.entries.slice(action.id), ...state.entries.slice(action.id+1, state.entries.length)]}
   }
 }
 
-function Main({routes}: {routes: Array<Model.RouteSpec>}) {
+function Main({routes}: {routes: Array<RouteSpec>}) {
   const [state, dispatch]: [State, (a:Action) => void]
     = React.useReducer(reducer, initState)
   React.useEffect(() => {
@@ -29,7 +31,7 @@ function Main({routes}: {routes: Array<Model.RouteSpec>}) {
     <Router.Switch>
       {routes.map((route, index) => (
         <Router.Route key={index} exact={route.exact} path={route.path}>
-          <route.component state={state} dispatch={dispatch} />
+          <route.component.MemoryComponent state={state} dispatch={dispatch} />
         </Router.Route>
       ))}
     </Router.Switch>
