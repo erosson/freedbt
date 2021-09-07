@@ -19,7 +19,8 @@ function Main(p: {dispatch: Model.Dispatch, entries: Array<[number, Model.Entry]
   return (
     <div className="App">
       <h3>The best journal ever</h3>
-      <p><Link to={`/entries/create`}>Write a new entry</Link></p>
+      <p><Link to={`/entries/create/journal`}>Write a new journal</Link></p>
+      <p><Link to={`/entries/create/cbt`}>Write a new CBT</Link></p>
       <p>count: {p.entries.length}</p>
       {p.entries.map(([id, entry]) => (
         <div key={id}>
