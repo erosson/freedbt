@@ -24,12 +24,29 @@ function Main(p: {dispatch: Model.Dispatch, entries: Array<[number, Model.Entry]
       {p.entries.map(([id, entry]) => (
         <div key={id}>
           <Link to={`/entries/${id}`}>Edit entry #{id}</Link>
-          <p style={{whiteSpace: 'pre-line'}}>{entry.body}</p>
+          <Entry entry={entry} />
         </div>
       )).reverse()}
       <button onClick={onErase}>Erase Journal</button>
     </div>
   );
+}
+
+function Entry(p: {entry: Model.Entry}) {
+  switch(p.entry.type) {
+    case 'journal': return <JournalEntry entry={p.entry} />
+    case 'cbt': return <CBTEntry entry={p.entry} />
+  }
+}
+function JournalEntry(p: {entry: Model.JournalEntry}) {
+  return (
+    <p style={{whiteSpace: 'pre-line'}}>{p.entry.body}</p>
+  )
+}
+function CBTEntry(p: {entry: Model.CBTEntry}) {
+  return (
+    <p style={{whiteSpace: 'pre-line'}}>cbt</p>
+  )
 }
 
 export function MemoryComponent({state, dispatch}: {state: DBMemory.State, dispatch: Model.Dispatch}) {
