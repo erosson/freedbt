@@ -11,6 +11,14 @@ function database() {
     entries: '++,type',
     settings: '',
   })
+  db.version(2).stores({
+    entries: '++,type,createdAt,updatedAt',
+  }).upgrade(tx => {
+    const createdAt = new Date()
+    return tx.table('entries').toCollection().modify(row => {
+      Object.assign(row, {createdAt, updatedAt: createdAt})
+    })
+  })
   return db
 }
 

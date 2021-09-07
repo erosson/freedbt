@@ -17,7 +17,7 @@ function Main(p: {dispatch: Model.Dispatch, id: number, entry: Model.Entry}) {
   const [deleted, setDeleted] = React.useState(false)
   const onUpdate = (event: React.SyntheticEvent) => {
     event.preventDefault()
-    const data: Model.Entry = {type: 'journal', body}
+    const data: Model.Entry = {...p.entry, updatedAt: new Date(), body}
     p.dispatch({type: 'entry.update', id: p.id, data})
   }
   const onDelete = (event: React.SyntheticEvent) => {
@@ -37,8 +37,10 @@ function Main(p: {dispatch: Model.Dispatch, id: number, entry: Model.Entry}) {
         <div>
           <label htmlFor="entry">Edit entry #{p.id}</label>
           <div><textarea id="entry" value={body} onChange={(event) => setBody(event.target.value)} style={{width: '100%', maxWidth: '80em', height: '10em'}} /></div>
+          <div>created {p.entry.createdAt+''}</div>
+          <div>updated {p.entry.updatedAt+''}</div>
         </div>
-        <button type="submit">Submit</button>
+        <button type="submit">Edit</button>
       </form>
       <p><button onClick={onDelete}>Delete Entry</button></p>
       <p><Link to="/">Home</Link></p>

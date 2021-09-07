@@ -7,9 +7,9 @@ import {Link} from 'react-router-dom'
 
 type State
   = {ready: false}
-  | {ready: true, entries: Model.Entry[]}
+  | {ready: true, ver: number, entries: Model.Entry[]}
 
-function Main(p: {entries: Model.Entry[], dispatch: Model.Dispatch}) {
+function Main(p: {entries: Model.Entry[], ver: number, dispatch: Model.Dispatch}) {
   return (
     <div className="App">
       <Link to="/">Home</Link>
@@ -19,13 +19,13 @@ function Main(p: {entries: Model.Entry[], dispatch: Model.Dispatch}) {
 }
 
 export function MemoryComponent({state, dispatch}: {state: DBMemory.State, dispatch: Model.Dispatch}) {
-  return <Main dispatch={dispatch} entries={state.entries} />
+  return <Main dispatch={dispatch} entries={state.entries} ver={0} />
 }
 export function DexieComponent({db, dispatch}: {db: Dexie, dispatch: Model.Dispatch}) {
   const state: State = useLiveQuery<State, {ready: false}>(async () => (
-    {ready: true, entries: await db.table('entries').toArray() || []}
+    {ready: true, entries: await db.table('entries').toArray(), ver: db.verno}
   ), [], {ready: false})
   return state.ready
-    ? <Main dispatch={dispatch} entries={state.entries} />
+    ? <Main dispatch={dispatch} entries={state.entries} ver={state.ver} />
     : <div className="App">loading...</div>
 }

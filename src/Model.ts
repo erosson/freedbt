@@ -1,5 +1,5 @@
 export type Entry
-  = {type: 'journal', body: string}
+  = {type: 'journal', createdAt: Date, updatedAt: Date, body: string}
 
 export type Action
   = {type: 'reset'}

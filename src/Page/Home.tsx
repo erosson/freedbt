@@ -13,7 +13,8 @@ function Main(p: {dispatch: Model.Dispatch, entries: Array<[number, Model.Entry]
   const [body, setBody] = React.useState('')
   const onCreate = (event: React.SyntheticEvent) => {
     event.preventDefault()
-    const data: Model.Entry = {type: 'journal', body}
+    const createdAt = new Date()
+    const data: Model.Entry = {type: 'journal', createdAt, updatedAt: createdAt, body}
     p.dispatch({type: 'entry.create', data})
     setBody('')
   }
