@@ -11,13 +11,13 @@ type State
 
 function Main(p: {dispatch: Model.Dispatch, entries: Array<[number, Model.Entry]>}) {
   const [body, setBody] = React.useState('')
-  const onCreate = (event:any) => {
+  const onCreate = (event: React.SyntheticEvent) => {
     event.preventDefault()
     const data: Model.Entry = {type: 'journal', body}
     p.dispatch({type: 'entry.create', data})
     setBody('')
   }
-  const onErase = (event:any) => {
+  const onErase = (event: React.SyntheticEvent) => {
     event.preventDefault()
     if (window.confirm('Are you sure you want to erase your journal? There is no undo.')) {
       p.dispatch({type: 'reset'})
@@ -53,8 +53,7 @@ export function DexieComponent({db, dispatch}: {db: Dexie, dispatch: Model.Dispa
     let coll = await db.table('entries').toCollection()
     let keys = await coll.primaryKeys()
     let vals: Model.Entry[] = await coll.toArray()
-    // let entries: Array<[number, Entry]> = keys.map((k, i) => [k, vals[i]])
-    let entries: any = keys.map((k, i) => [k, vals[i]])
+    let entries: Array<[number, Model.Entry]> = keys.map((k, i) => [k as number, vals[i]])
     return {ready: true, entries}
   }, [], {ready: false})
 

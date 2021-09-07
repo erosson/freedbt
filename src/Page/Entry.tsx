@@ -15,12 +15,12 @@ type State
 function Main(p: {dispatch: Model.Dispatch, id: number, entry: Model.Entry}) {
   const [body, setBody] = React.useState(p.entry.body)
   const [deleted, setDeleted] = React.useState(false)
-  const onUpdate = (event:any) => {
+  const onUpdate = (event: React.SyntheticEvent) => {
     event.preventDefault()
     const data: Model.Entry = {type: 'journal', body}
     p.dispatch({type: 'entry.update', id: p.id, data})
   }
-  const onDelete = (event:any) => {
+  const onDelete = (event: React.SyntheticEvent) => {
     event.preventDefault()
     if (window.confirm('Are you sure you want to delete this entry? There is no undo.')) {
       p.dispatch({type: 'entry.delete', id: p.id})
