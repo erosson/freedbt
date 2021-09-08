@@ -6,8 +6,8 @@ import { negotiateLanguages } from '@fluent/langneg'
 import { FluentBundle, FluentResource } from '@fluent/bundle'
 import { ReactLocalization } from '@fluent/react'
 
-// eslint-disable-next-line import/no-webpack-loader-syntax
 // TODO this fails completely in tests
+// eslint-disable-next-line import/no-webpack-loader-syntax
 import enUS from '!!raw-loader!./locales/en-US/main.ftl'
 
 // Store all translations as a simple object which is available
