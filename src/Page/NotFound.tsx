@@ -4,7 +4,7 @@ import * as DBMemory from '../DB/Memory'
 import Dexie from 'dexie'
 import {Link} from 'react-router-dom'
 
-function Main() {
+export function Main() {
   return (
     <div className="App">
       <p>Page not found</p>
@@ -19,3 +19,4 @@ export function MemoryComponent({state, dispatch}: {state: DBMemory.State, dispa
 export function DexieComponent({db, dispatch}: {db: Dexie, dispatch: Model.Dispatch}) {
   return <Main />
 }
+export default Main

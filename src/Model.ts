@@ -1,6 +1,16 @@
 export type Entry = JournalEntry | CBTEntry
 export type JournalEntry = {type: 'journal', createdAt: Date, updatedAt: Date, body: string}
 export type CBTEntry = {type: 'cbt', createdAt: Date, updatedAt: Date, problem: string, distortions: Set<Distortion>, challenge: string, alternative: string}
+export const entryTypes = new Set<Entry['type']>([
+  'journal',
+  'cbt',
+])
+export function isEntryType(t: string): t is Entry['type'] {
+  return (
+    t === 'journal'
+    || t === 'cbt'
+  )
+}
 
 export type Distortion
   = 'all-or-nothing'

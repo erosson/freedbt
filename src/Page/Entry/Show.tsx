@@ -6,8 +6,7 @@ import Dexie from 'dexie'
 import {Link} from 'react-router-dom'
 import {useLiveQuery} from 'dexie-react-hooks'
 import * as Router from 'react-router-dom'
-import JournalForm from '../../View/Form/Journal'
-import CBTForm from '../../View/Form/CBT'
+import Form from '../../View/Form'
 
 type State
   = {status: 'loading'}
@@ -44,10 +43,7 @@ function Entry(p: {dispatch: Model.Dispatch, id: number, entry: Model.Entry}) {
   function onSubmit(data: Model.Entry) {
     p.dispatch({type: 'entry.update', id: p.id, data})
   }
-  switch(p.entry.type) {
-    case 'journal': return <JournalForm entry={p.entry} onSubmit={onSubmit} />
-    case 'cbt': return <CBTForm entry={p.entry} onSubmit={onSubmit} />
-  }
+  return <Form entry={p.entry} onSubmit={onSubmit} />
 }
 
 export function MemoryComponent({state, dispatch}: {state: DBMemory.State, dispatch: Model.Dispatch}) {
