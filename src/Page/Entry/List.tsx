@@ -22,12 +22,14 @@ function Main(p: {dispatch: Model.Dispatch, entries: Array<[number, Model.Entry]
       <p><Link to={`/entries/create/journal`}>Write a new journal</Link></p>
       <p><Link to={`/entries/create/cbt`}>Write a new CBT</Link></p>
       <p>count: {p.entries.length}</p>
+      <ul>
       {p.entries.map(([id, entry]) => (
-        <div key={id}>
+        <li key={id}>
           <Link to={`/entries/${id}`}>Edit entry #{id}</Link>
           <Entry entry={entry} />
-        </div>
+        </li>
       )).reverse()}
+      </ul>
       <button onClick={onErase}>Erase Journal</button>
     </div>
   );
