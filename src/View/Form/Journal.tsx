@@ -1,12 +1,14 @@
 import React from 'react'
 import * as Model from '../../Model'
 
-function Main(p: {entry?: Model.JournalEntry, onSubmit: (e:Model.JournalEntry) => void}) {
+type Entry = Model.JournalEntry
+
+function Main(p: {entry?: Entry, onSubmit: (e:Entry) => void}) {
   const [body, setBody] = React.useState(p.entry?.body || '')
   function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault()
     const updatedAt = new Date()
-    const entry: Model.JournalEntry = {
+    const entry: Entry = {
       type: 'journal',
       createdAt: p.entry?.createdAt || updatedAt,
       updatedAt,

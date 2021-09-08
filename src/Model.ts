@@ -1,14 +1,21 @@
-export type Entry = JournalEntry | CBTEntry
+export type Entry = JournalEntry | CBTEntry | DBTEmotionRegulation5Entry
 export type JournalEntry = {type: 'journal', createdAt: Date, updatedAt: Date, body: string}
 export type CBTEntry = {type: 'cbt', createdAt: Date, updatedAt: Date, problem: string, distortions: Set<Distortion>, challenge: string, alternative: string}
-export const entryTypes = new Set<Entry['type']>([
-  'journal',
-  'cbt',
-])
+export type DBTEmotionRegulation5Entry = {
+  type: 'dbt-emotion-regulation-5', createdAt: Date, updatedAt: Date,
+  emotion: {name: string, intensity: number},
+  promptingEvent: {body: string, facts: string},
+  interpretations: {body: string, facts: string, rewrite: string},
+  threat: {body: string, facts: string, rewrite: string},
+  catastrophe: {body: string, cope: string},
+  fit: {rating: number, action: string},
+}
+
 export function isEntryType(t: string): t is Entry['type'] {
   return (
     t === 'journal'
     || t === 'cbt'
+    || t === 'dbt-emotion-regulation-5'
   )
 }
 

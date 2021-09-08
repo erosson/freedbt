@@ -7,8 +7,6 @@ import * as PageDebug from './Page/Debug'
 import * as PageEntryList from './Page/Entry/List'
 import * as PageEntryShow from './Page/Entry/Show'
 import * as PageEntryCreate from './Page/Entry/Create'
-import * as PageEntryCreateJournal from './Page/Entry/Create/Journal'
-import * as PageEntryCreateCBT from './Page/Entry/Create/CBT'
 
 export type RouteSpec = {path: string, exact?: boolean, component: {
   MemoryComponent: (p:{state: DBMemory.State, dispatch: Model.Dispatch}) => JSX.Element,

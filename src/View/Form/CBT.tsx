@@ -1,8 +1,9 @@
 import React from 'react'
 import * as Model from '../../Model'
 
-function Main(p: {entry?: Model.CBTEntry, onSubmit: (e:Model.CBTEntry) => void}) {
-  console.log(typeof(p.entry?.distortions), p.entry?.distortions)
+type Entry = Model.CBTEntry
+
+function Main(p: {entry?: Entry, onSubmit: (e:Entry) => void}) {
   const [problem, setProblem] = React.useState(p.entry?.problem || '')
   const [distortions, setDistortions] = React.useState(p.entry?.distortions || new Set<Model.Distortion>([]))
   const [challenge, setChallenge] = React.useState(p.entry?.challenge || '')
@@ -18,7 +19,7 @@ function Main(p: {entry?: Model.CBTEntry, onSubmit: (e:Model.CBTEntry) => void})
   function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault()
     const updatedAt = new Date()
-    const entry: Model.CBTEntry = {
+    const entry: Entry = {
       type: 'cbt',
       createdAt: p.entry?.createdAt || updatedAt,
       updatedAt,
