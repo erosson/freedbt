@@ -6,13 +6,16 @@ import {BrowserRouter as Router} from 'react-router-dom'
 import DBDexie from './DB/Dexie'
 import * as Routes from './Routes'
 
-function Main() {
+export function Main() {
   return (
       // <DBMemory routes={Routes.routes} />
     <Router>
-      <DBDexie routes={Routes.routes} />
+      <MainRoutes />
     </Router>
   )
+}
+export function MainRoutes() {
+  return <DBDexie routes={Routes.routes} />
 }
 
 export default Main;
