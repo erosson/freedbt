@@ -22,7 +22,7 @@ function Main(p: {dispatch: Model.Dispatch}) {
   }
   return (
     <div className="App">
-      <h3>The best journal ever</h3>
+      <h3>FreeDBT</h3>
       <Form type={params.type} onSubmit={onSubmit} />
       <p><Link to="/">Home</Link></p>
     </div>

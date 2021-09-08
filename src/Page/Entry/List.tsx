@@ -18,7 +18,7 @@ function Main(p: {dispatch: Model.Dispatch, entries: Array<[number, Model.Entry]
   }
   return (
     <div className="App">
-      <h3>The best journal ever</h3>
+      <h3>FreeDBT</h3>
       <p><Link to={`/entries/create/journal`}>Write a new journal</Link></p>
       <p><Link to={`/entries/create/cbt`}>Write a new CBT</Link></p>
       <p><Link to={`/entries/create/dbt-emotion-regulation-5`}>Write a new DBT - Emotion Regulation (5)</Link></p>

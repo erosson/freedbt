@@ -27,7 +27,7 @@ function Main(p: {dispatch: Model.Dispatch, id: number, entry: Model.Entry}) {
   }
   return (
     <div className="App">
-      <h3>The best journal ever</h3>
+      <h3>FreeDBT</h3>
       <div>
         <label htmlFor="entry">Edit entry #{p.id}</label>
         <Entry {...p} />
