@@ -28,8 +28,8 @@ function Main(p: {dispatch: Model.Dispatch, id: number, entry: Model.Entry}) {
   return (
     <div className="App">
       <h3>FreeDBT</h3>
+      <h4>Edit {p.entry.type} entry #{p.id}</h4>
       <div>
-        <label htmlFor="entry">Edit entry #{p.id}</label>
         <Entry {...p} />
         <div>created {p.entry.createdAt+''}</div>
         <div>updated {p.entry.updatedAt+''}</div>
