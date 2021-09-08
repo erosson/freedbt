@@ -52,7 +52,7 @@ function Main(p: {entry?: Entry, onSubmit: (e:Entry) => void}) {
           </div>
           <div>
             <label htmlFor="emotionIntensity">Intensity: </label>
-            <input id="emotionIntensityNum" type="number" min="0" max="100" step="5" value={emotionIntensity} onChange={(event) => setEmotionIntensity(parseInt(event.target.value))} />
+            <input id="emotionIntensityNum" type="number" min="0" max="100" step="1" value={emotionIntensity} onChange={(event) => setEmotionIntensity(parseInt(event.target.value))} />
             <div><input id="emotionIntensity" type="range" min="0" max="100" step="1" value={emotionIntensity} onChange={(event) => setEmotionIntensity(parseInt(event.target.value))} /></div>
           </div>
         </li>
