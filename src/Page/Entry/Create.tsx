@@ -6,6 +6,7 @@ import {Link} from 'react-router-dom'
 import * as Router from 'react-router-dom'
 import Form from '../../View/Form'
 import PageNotFound from '../NotFound'
+import { Localized } from '@fluent/react';
 
 function Main(p: {dispatch: Model.Dispatch}) {
   const params = Router.useParams<{type: string}>()
@@ -22,10 +23,9 @@ function Main(p: {dispatch: Model.Dispatch}) {
   }
   return (
     <div className="App">
-      <h3>FreeDBT</h3>
-      <h4>Create {params.type} entry</h4>
+      <h3><Link to="/"><Localized id="title" /></Link></h3>
+      <h4><Localized id={`create-${params.type}`} /></h4>
       <Form type={params.type} onSubmit={onSubmit} />
-      <p><Link to="/">Home</Link></p>
     </div>
   );
 }

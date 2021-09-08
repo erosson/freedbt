@@ -1,6 +1,8 @@
 import './App.css'
 import React from 'react'
 import {BrowserRouter as Router} from 'react-router-dom'
+import { LocalizationProvider } from '@fluent/react';
+import l10n from './Locale'
 
 // import DBMemory from './DB/Memory'
 import DBDexie from './DB/Dexie'
@@ -15,7 +17,11 @@ export function Main() {
   )
 }
 export function MainRoutes() {
-  return <DBDexie routes={Routes.routes} />
+  return (
+    <LocalizationProvider l10n={l10n}>
+      <DBDexie routes={Routes.routes} />
+    </LocalizationProvider>
+  )
 }
 
 export default Main;

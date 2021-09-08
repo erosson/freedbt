@@ -3,12 +3,13 @@ import * as Model from '../Model'
 import * as DBMemory from '../DB/Memory'
 import Dexie from 'dexie'
 import {Link} from 'react-router-dom'
+import { Localized } from '@fluent/react';
 
 export function Main() {
   return (
     <div className="App">
-      <p>Page not found</p>
-      <Link to="/">Home</Link>
+      <h3><Link to="/"><Localized id="title" /></Link></h3>
+      <p><Localized id="page-not-found" /></p>
     </div>
   );
 }

@@ -24,9 +24,6 @@ function database() {
 
 function Main({routes}: {routes: Array<RouteSpec>}) {
   const db = React.useRef(database()).current
-  // const state: State = useLiveQuery(async () => (
-    // {ready: true, counter: await db.table('counter').toCollection().first() || Model.initCounter}
-  // ), [], {ready: false})
 
   const dispatch = Util.useSideEffect((action: Model.Action): null => {
     switch (action.type) {

@@ -7,6 +7,7 @@ import {Link} from 'react-router-dom'
 import {useLiveQuery} from 'dexie-react-hooks'
 import * as Router from 'react-router-dom'
 import Form from '../../View/Form'
+import { Localized, useLocalization } from '@fluent/react';
 
 type State
   = {status: 'loading'}
@@ -14,10 +15,11 @@ type State
   | {status: 'ready', entry: Model.Entry}
 
 function Main(p: {dispatch: Model.Dispatch, id: number, entry: Model.Entry}) {
+  const locale = useLocalization().l10n
   const deleted = React.useRef(false)
   const onDelete = (event: React.SyntheticEvent) => {
     event.preventDefault()
-    if (window.confirm('Are you sure you want to delete this entry? There is no undo.')) {
+    if (window.confirm(locale.getString('delete-entry-confirm'))) {
       p.dispatch({type: 'entry.delete', id: p.id})
       deleted.current = true
     }
@@ -27,15 +29,14 @@ function Main(p: {dispatch: Model.Dispatch, id: number, entry: Model.Entry}) {
   }
   return (
     <div className="App">
-      <h3>FreeDBT</h3>
-      <h4>Edit {p.entry.type} entry #{p.id}</h4>
+      <h3><Link to="/"><Localized id="title" /></Link></h3>
+      <h4><Localized id={`edit-${p.entry.type}`} vars={{id: p.id}} /></h4>
       <div>
         <Entry {...p} />
-        <div>created {p.entry.createdAt+''}</div>
-        <div>updated {p.entry.updatedAt+''}</div>
+        <div><Localized id="created-at" vars={{date: p.entry.createdAt}} /></div>
+        <div><Localized id="updated-at" vars={{date: p.entry.updatedAt}} /></div>
       </div>
-      <p><button onClick={onDelete}>Delete Entry</button></p>
-      <p><Link to="/">Home</Link></p>
+      <p><button onClick={onDelete}><Localized id="delete-entry-button" /></button></p>
     </div>
   );
 }
@@ -69,6 +70,6 @@ export function DexieComponent({db, dispatch}: {db: Dexie, dispatch: Model.Dispa
     case 'missing':
       return <PageNotFound.DexieComponent db={db} dispatch={dispatch} />
     case 'loading':
-      return <div className="App">loading...</div>
+      return <div className="App"><Localized id="loading" /></div>
   }
 }

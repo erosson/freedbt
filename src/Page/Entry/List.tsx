@@ -4,34 +4,35 @@ import * as DBMemory from '../../DB/Memory'
 import Dexie from 'dexie'
 import {Link} from 'react-router-dom'
 import {useLiveQuery} from 'dexie-react-hooks'
+import { Localized, useLocalization } from '@fluent/react';
 
 type State
   = {ready: false}
   | {ready: true, entries: Array<[number, Model.Entry]>}
 
 function Main(p: {dispatch: Model.Dispatch, entries: Array<[number, Model.Entry]>}) {
+  const locale = useLocalization().l10n
   const onErase = (event: React.SyntheticEvent) => {
     event.preventDefault()
-    if (window.confirm('Are you sure you want to erase your journal? There is no undo.')) {
+    if (window.confirm(locale.getString('erase-journal-confirm'))) {
       p.dispatch({type: 'reset'})
     }
   }
   return (
     <div className="App">
-      <h3>FreeDBT</h3>
-      <p><Link to={`/entries/create/journal`}>Write a new journal</Link></p>
-      <p><Link to={`/entries/create/cbt`}>Write a new CBT</Link></p>
-      <p><Link to={`/entries/create/dbt-emotion-regulation-5`}>Write a new DBT - Emotion Regulation (5)</Link></p>
-      <p>count: {p.entries.length}</p>
+      <h3><Link to="/"><Localized id="title" /></Link></h3>
+      <p><Link to={`/entries/create/journal`}><Localized id="create-journal" /></Link></p>
+      <p><Link to={`/entries/create/cbt`}><Localized id="create-cbt" /></Link></p>
+      <p><Link to={`/entries/create/dbt-emotion-regulation-5`}><Localized id="create-dbt-emotion-regulation-5" /></Link></p>
       <ul>
       {p.entries.map(([id, entry]) => (
         <li key={id}>
-          <Link to={`/entries/${id}`}>Edit entry #{id}</Link>
+          <Link to={`/entries/${id}`}><Localized id="edit-entry" vars={{id}} /></Link>
           <Entry entry={entry} />
         </li>
       )).reverse()}
       </ul>
-      <button onClick={onErase}>Erase Journal</button>
+      <button onClick={onErase}><Localized id="erase-journal-button" /></button>
     </div>
   );
 }
@@ -73,5 +74,5 @@ export function DexieComponent({db, dispatch}: {db: Dexie, dispatch: Model.Dispa
 
   return state.ready
     ? <Main dispatch={dispatch} entries={state.entries} />
-    : <div className="App">loading...</div>
+    : <div className="App"><Localized id="loading" /></div>
 }

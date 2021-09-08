@@ -1,5 +1,6 @@
 import React from 'react'
 import * as Model from '../../Model'
+import { Localized } from '@fluent/react';
 
 type Entry = Model.CBTEntry
 
@@ -33,27 +34,27 @@ function Main(p: {entry?: Entry, onSubmit: (e:Entry) => void}) {
   return (
     <form onSubmit={onSubmit}>
       <div>
-        <label htmlFor="problem">Automatic thought</label>
+        <label htmlFor="problem"><Localized id="cbt-problem" /></label>
         <div><textarea id="problem" value={problem} onChange={(event) => setProblem(event.target.value)} style={{width: '100%', maxWidth: '80em', height: '10em'}} /></div>
       </div>
       <div>
-        <label>Cognitive distortions</label>
+        <label><Localized id="cbt-distortions" /></label>
         {Model.distortions.map(distortion => (
           <div key={distortion}>
             <input type="checkbox" id={`distortion-${distortion}`} checked={distortions.has(distortion)} onChange={onDistortionChecked(distortion)} />
-            <label htmlFor={`distortion-${distortion}`}>{distortion}</label>
+            <label htmlFor={`distortion-${distortion}`}><Localized id={`cbt-distortion-${distortion}`} /></label>
           </div>
         ))}
       </div>
       <div>
-        <label htmlFor="challenge">Challenge the thought</label>
+        <label htmlFor="challenge"><Localized id="cbt-challenge" /></label>
         <div><textarea id="challenge" value={challenge} onChange={(event) => setChallenge(event.target.value)} style={{width: '100%', maxWidth: '80em', height: '10em'}} /></div>
       </div>
       <div>
-        <label htmlFor="alternative">Write an alternative thought</label>
+        <label htmlFor="alternative"><Localized id="cbt-alternative" /></label>
         <div><textarea id="alternative" value={alternative} onChange={(event) => setAlternative(event.target.value)} style={{width: '100%', maxWidth: '80em', height: '10em'}} /></div>
       </div>
-      <button type="submit">Submit</button>
+      <button type="submit"><Localized id="submit" /></button>
     </form>
   )
 }
