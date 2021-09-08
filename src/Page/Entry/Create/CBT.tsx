@@ -1,17 +1,14 @@
 import React from 'react'
-import * as Model from '../../Model'
-import * as DBMemory from '../../DB/Memory'
+import * as Model from '../../../Model'
+import * as DBMemory from '../../../DB/Memory'
+import Form from '../../../View/Form/CBT'
 import Dexie from 'dexie'
 import {Link} from 'react-router-dom'
 import * as Router from 'react-router-dom'
 
 function Main(p: {dispatch: Model.Dispatch}) {
-  const [body, setBody] = React.useState('')
   const created = React.useRef(false)
-  const onCreate = (event: React.SyntheticEvent) => {
-    event.preventDefault()
-    const createdAt = new Date()
-    const data: Model.JournalEntry = {type: 'journal', createdAt, updatedAt: createdAt, body}
+  const onSubmit = (data: Model.CBTEntry) => {
     p.dispatch({type: 'entry.create', data})
     created.current = true
   }
@@ -21,13 +18,7 @@ function Main(p: {dispatch: Model.Dispatch}) {
   return (
     <div className="App">
       <h3>The best journal ever</h3>
-      <form onSubmit={onCreate}>
-        <div>
-          <label htmlFor="entry">Write your entry...</label>
-          <div><textarea id="entry" value={body} onChange={(event) => setBody(event.target.value)} style={{width: '100%', maxWidth: '80em', height: '10em'}} /></div>
-        </div>
-        <button type="submit">Submit</button>
-      </form>
+      <Form onSubmit={onSubmit} />
       <p><Link to="/">Home</Link></p>
     </div>
   );

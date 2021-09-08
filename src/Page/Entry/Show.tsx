@@ -6,6 +6,8 @@ import Dexie from 'dexie'
 import {Link} from 'react-router-dom'
 import {useLiveQuery} from 'dexie-react-hooks'
 import * as Router from 'react-router-dom'
+import JournalForm from '../../View/Form/Journal'
+import CBTForm from '../../View/Form/CBT'
 
 type State
   = {status: 'loading'}
@@ -39,29 +41,13 @@ function Main(p: {dispatch: Model.Dispatch, id: number, entry: Model.Entry}) {
   );
 }
 function Entry(p: {dispatch: Model.Dispatch, id: number, entry: Model.Entry}) {
-  switch(p.entry.type) {
-    case 'journal': return <JournalEntry dispatch={p.dispatch} id={p.id} entry={p.entry} />
-    case 'cbt': return <CBTEntry dispatch={p.dispatch} id={p.id} entry={p.entry} />
-  }
-}
-function JournalEntry(p: {dispatch: Model.Dispatch, id: number, entry: Model.JournalEntry}) {
-  const [body, setBody] = React.useState(p.entry.body)
-  const onUpdate = (event: React.SyntheticEvent) => {
-    event.preventDefault()
-    const data: Model.Entry = {...p.entry, updatedAt: new Date(), body}
+  function onSubmit(data: Model.Entry) {
     p.dispatch({type: 'entry.update', id: p.id, data})
   }
-  return (
-    <form onSubmit={onUpdate}>
-      <div><textarea id="entry" value={body} onChange={(event) => setBody(event.target.value)} style={{width: '100%', maxWidth: '80em', height: '10em'}} /></div>
-      <button type="submit">Edit</button>
-    </form>
-  )
-}
-function CBTEntry(p: {dispatch: Model.Dispatch, id: number, entry: Model.CBTEntry}) {
-  return (
-    <p style={{whiteSpace: 'pre-line'}}>cbt</p>
-  )
+  switch(p.entry.type) {
+    case 'journal': return <JournalForm entry={p.entry} onSubmit={onSubmit} />
+    case 'cbt': return <CBTForm entry={p.entry} onSubmit={onSubmit} />
+  }
 }
 
 export function MemoryComponent({state, dispatch}: {state: DBMemory.State, dispatch: Model.Dispatch}) {
