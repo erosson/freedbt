@@ -45,6 +45,8 @@ function Main(p: {entry?: Entry, onSubmit: (e:Entry) => void}) {
   const prefix = 'dbt-emotion-regulation-5'
   return (
     <form onSubmit={onSubmit}>
+      <h4><Localized id={`${prefix}-title`} /></h4>
+      <p><Localized id={`${prefix}-desc`} /></p>
       <ol>
         <li>
           <h4><Localized id={`${prefix}-emotion`} /></h4>
@@ -61,21 +63,31 @@ function Main(p: {entry?: Entry, onSubmit: (e:Entry) => void}) {
         <li>
           <h4><Localized id={`${prefix}-prompting`} /></h4>
           <div>
-            <label htmlFor="promptingEventBody"><Localized id={`${prefix}-prompting-body`} /></label>
+            <label htmlFor="promptingEventBody">
+              <b><Localized id={`${prefix}-prompting-body`} /></b>
+              <p><Localized id={`${prefix}-prompting-body-desc`} /></p>
+            </label>
             <div><textarea id="promptingEventBody" value={promptingEventBody} onChange={(event) => setPromptingEventBody(event.target.value)} style={{width: '100%', maxWidth: '80em', height: '10em'}} /></div>
           </div>
           <div>
-            <label htmlFor="promptingEventFacts"><Localized id={`${prefix}-prompting-facts`} /></label>
+            <label htmlFor="promptingEventFacts">
+              <b><Localized id={`${prefix}-prompting-facts`} /></b>
+              <p><Localized id={`${prefix}-prompting-facts-desc`} /></p>
+            </label>
             <div><textarea id="promptingEventFacts" value={promptingEventFacts} onChange={(event) => setPromptingEventFacts(event.target.value)} style={{width: '100%', maxWidth: '80em', height: '10em'}} /></div>
           </div>
         </li>
         <li>
           <h4><Localized id={`${prefix}-interpretations`} /></h4>
+          <p><Localized id={`${prefix}-interpretations-desc`} /></p>
           <div>
             <div><textarea id="interpretationsBody" value={interpretationsBody} onChange={(event) => setInterpretationsBody(event.target.value)} style={{width: '100%', maxWidth: '80em', height: '10em'}} /></div>
           </div>
           <div>
-            <label htmlFor="interpretationsFacts"><Localized id={`${prefix}-interpretations-facts`} /></label>
+            <label htmlFor="interpretationsFacts">
+              <b><Localized id={`${prefix}-interpretations-facts`} /></b>
+              <p><Localized id={`${prefix}-interpretations-facts-desc`} /></p>
+            </label>
             <div><textarea id="interpretationsFacts" value={interpretationsFacts} onChange={(event) => setInterpretationsFacts(event.target.value)} style={{width: '100%', maxWidth: '80em', height: '10em'}} /></div>
           </div>
           <div>
@@ -85,11 +97,15 @@ function Main(p: {entry?: Entry, onSubmit: (e:Entry) => void}) {
         </li>
         <li>
           <h4><Localized id={`${prefix}-threat`} /></h4>
+          <p><Localized id={`${prefix}-threat-desc`} /></p>
           <div>
             <div><textarea id="threatBody" value={threatBody} onChange={(event) => setThreatBody(event.target.value)} style={{width: '100%', maxWidth: '80em', height: '10em'}} /></div>
           </div>
           <div>
-            <label htmlFor="threatFacts"><Localized id={`${prefix}-threat-facts`} /></label>
+            <label htmlFor="threatFacts">
+              <b><Localized id={`${prefix}-threat-facts`} /></b>
+              <p><Localized id={`${prefix}-threat-facts-desc`} /></p>
+            </label>
             <div><textarea id="threatFacts" value={threatFacts} onChange={(event) => setThreatFacts(event.target.value)} style={{width: '100%', maxWidth: '80em', height: '10em'}} /></div>
           </div>
           <div>
@@ -99,6 +115,7 @@ function Main(p: {entry?: Entry, onSubmit: (e:Entry) => void}) {
         </li>
         <li>
           <h4><Localized id={`${prefix}-catastrophe`} /></h4>
+          <p><Localized id={`${prefix}-catastrophe-desc`} /></p>
           <div>
             <div><textarea id="catastropheBody" value={catastropheBody} onChange={(event) => setCatastropheBody(event.target.value)} style={{width: '100%', maxWidth: '80em', height: '10em'}} /></div>
           </div>
@@ -113,6 +130,7 @@ function Main(p: {entry?: Entry, onSubmit: (e:Entry) => void}) {
             <label htmlFor="fitRating"><Localized id={`${prefix}-fit-rating`} /></label>
             <input id="fitRatingNum" type="number" min="0" max="5" step="1" value={fitRating} onChange={(event) => setFitRating(parseInt(event.target.value))} />
             <div><input id="fitRating" type="range" min="0" max="5" step="1" value={fitRating} onChange={(event) => setFitRating(parseInt(event.target.value))} /></div>
+            <p><Localized id={`${prefix}-fit-rating-desc`} /></p>
           </div>
           <div>
             <label htmlFor="fitAction"><Localized id={`${prefix}-fit-action`} /></label>
