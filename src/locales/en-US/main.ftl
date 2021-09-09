@@ -8,7 +8,7 @@ loading = Loading...
 submit = Submit
 
 ## Homepage
-## https://freecbt.erosson.org/
+## https://freedbt.erosson.org/
 
 create-journal = Write a new journal
 create-cbt = Write a new CBT
@@ -18,7 +18,7 @@ erase-journal-button = Erase all entries
 erase-journal-confirm = Are you sure you want to erase your journal? There is no undo.
 
 ## Show/edit entries
-## https://freecbt.erosson.org/entries/<n>
+## https://freedbt.erosson.org/entries/<n>
 
 edit-journal = Edit journal #{ $id }
 edit-cbt = Edit CBT #{ $id }
@@ -29,8 +29,8 @@ delete-entry-button = Delete this entry
 delete-entry-confirm = Are you sure you want to delete this entry? There is no undo.
 
 ## CBT: cognitive behavioral therapy
-## https://freecbt.erosson.org/entries/<n>
-## https://freecbt.erosson.org/entries/create/cbt
+## https://freedbt.erosson.org/entries/<n>
+## https://freedbt.erosson.org/entries/create/cbt
 
 cbt-problem = Automatic thought
 cbt-distortions = Cognitive distortions
@@ -64,8 +64,8 @@ cbt-distortion-self-blaming = Self-blaming
 cbt-distortion-should-statements = Should statements
 
 ## DBT - Emotion Regulation, worksheet 5
-## https://freecbt.erosson.org/entries/<n>
-## https://freecbt.erosson.org/entries/create/dbt-emotion-regulation-5
+## https://freedbt.erosson.org/entries/<n>
+## https://freedbt.erosson.org/entries/create/dbt-emotion-regulation-5
 
 dbt-emotion-regulation-5-emotion = What emotion do I want to change?
 dbt-emotion-regulation-5-emotion-name = EMOTION NAME:
