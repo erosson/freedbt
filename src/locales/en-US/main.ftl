@@ -1,13 +1,14 @@
 # https://projectfluent.org/
 
-## Used throughout the app
+## Terms used throughout the app
 
 title = FreeDBT
 page-not-found = Page not found
 loading = Loading...
 submit = Submit
 
-## Homepage/entry-list
+## Homepage
+## https://freecbt.erosson.org/
 
 create-journal = Write a new journal
 create-cbt = Write a new CBT
@@ -16,7 +17,8 @@ edit-entry = Edit entry #{ $id }
 erase-journal-button = Erase all entries
 erase-journal-confirm = Are you sure you want to erase your journal? There is no undo.
 
-## View a single entry
+## Show/edit entries
+## https://freecbt.erosson.org/entries/<n>
 
 edit-journal = Edit journal #{ $id }
 edit-cbt = Edit CBT #{ $id }
@@ -26,12 +28,15 @@ updated-at = Updated { DATETIME($date, year: "numeric", day: "numeric", month: "
 delete-entry-button = Delete this entry
 delete-entry-confirm = Are you sure you want to delete this entry? There is no undo.
 
-## CBT
+## CBT: cognitive behavioral therapy
+## https://freecbt.erosson.org/entries/<n>
+## https://freecbt.erosson.org/entries/create/cbt
 
 cbt-problem = Automatic thought
 cbt-distortions = Cognitive distortions
 cbt-challenge = Challenge the thought
 cbt-alternative = Write an alternative thought
+
 cbt-distortion-all-or-nothing = All-or-nothing thinking
 cbt-distortion-catastrophizing = Catastrophizing
 cbt-distortion-emotional-reasoning = Emotional reasoning
@@ -45,7 +50,22 @@ cbt-distortion-overgeneralization = Overgeneralization
 cbt-distortion-self-blaming = Self-blaming
 cbt-distortion-should-statements = Should statements
 
-## DBT - Emotion Regulation (5)
+cbt-distortion-all-or-nothing = All-or-nothing thinking
+cbt-distortion-catastrophizing = Catastrophizing
+cbt-distortion-emotional-reasoning = Emotional reasoning
+cbt-distortion-fortune-telling = Fortune telling
+cbt-distortion-labeling = Labeling
+cbt-distortion-magnification-of-the-negative = Magnification of the negative
+cbt-distortion-mind-reading = Mind reading
+cbt-distortion-minimization-of-the-positive = Minimization of the positive
+cbt-distortion-other-blaming = Other-blaming
+cbt-distortion-overgeneralization = Overgeneralization
+cbt-distortion-self-blaming = Self-blaming
+cbt-distortion-should-statements = Should statements
+
+## DBT - Emotion Regulation, worksheet 5
+## https://freecbt.erosson.org/entries/<n>
+## https://freecbt.erosson.org/entries/create/dbt-emotion-regulation-5
 
 dbt-emotion-regulation-5-emotion = What emotion do I want to change?
 dbt-emotion-regulation-5-emotion-name = EMOTION NAME:
