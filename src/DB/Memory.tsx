@@ -3,21 +3,23 @@ import * as Router from 'react-router-dom'
 import * as Model from '../Model'
 import {RouteSpec} from '../Routes'
 
-export type State = {entries: Array<Model.Entry>}
+export type State = {entries: Array<Model.Entry>, settings: Model.Settings}
 export type Action = Model.Action
-const initState = {entries: []}
+const initState = {entries: [], settings: Model.initSettings}
 
 function reducer(state: State, action: Action): State {
   console.log('reducer', action)
   switch (action.type) {
     case 'reset':
       return initState
+    case 'settings.update':
+      return {...state, settings: action.value}
     case 'entry.create':
-      return {entries: [action.data, ...state.entries]}
+      return {...state, entries: [action.data, ...state.entries]}
     case 'entry.update':
-      return {entries: [...state.entries.slice(action.id), action.data, ...state.entries.slice(action.id+1, state.entries.length)]}
+      return {...state, entries: [...state.entries.slice(action.id), action.data, ...state.entries.slice(action.id+1, state.entries.length)]}
     case 'entry.delete':
-      return {entries: [...state.entries.slice(action.id), ...state.entries.slice(action.id+1, state.entries.length)]}
+      return {...state, entries: [...state.entries.slice(action.id), ...state.entries.slice(action.id+1, state.entries.length)]}
   }
 }
 

@@ -11,7 +11,7 @@ import * as PageEntryCreate from './Page/Entry/Create'
 
 export type RouteSpec = {path: string, exact?: boolean, component: {
   MemoryComponent: (p:{state: DBMemory.State, dispatch: Model.Dispatch}) => JSX.Element,
-  DexieComponent: (p:{db: Dexie, dispatch: Model.Dispatch}) => JSX.Element,
+  DexieComponent: (p:{settings: Model.Settings, db: Dexie, dispatch: Model.Dispatch}) => JSX.Element,
 }}
 
 export const routes: Array<RouteSpec> = [

@@ -12,9 +12,9 @@ type State
   = {ready: false}
   | {ready: true, entries: Array<[number, Model.Entry]>}
 
-function Main(p: {dispatch: Model.Dispatch, entries: Array<[number, Model.Entry]>}) {
+function Main(p: {dispatch: Model.Dispatch, settings: Model.Settings, entries: Array<[number, Model.Entry]>}) {
   return (
-    <Layout>
+    <Layout settings={p.settings}>
       <p><Link to={`/entries/create/journal`}><Localized id="create-journal" /></Link></p>
       <p><Link to={`/entries/create/cbt`}><Localized id="create-cbt" /></Link></p>
       <p><Link to={`/entries/create/dbt-emotion-regulation-5`}><Localized id="create-dbt-emotion-regulation-5" /></Link></p>
@@ -55,9 +55,9 @@ function DBTEmotionRegulation5Entry(p: {entry: Model.DBTEmotionRegulation5Entry}
 }
 
 export function MemoryComponent({state, dispatch}: {state: DBMemory.State, dispatch: Model.Dispatch}) {
-  return <Main dispatch={dispatch} entries={state.entries.map((item, key) => [key, item])} />
+  return <Main dispatch={dispatch} settings={state.settings} entries={state.entries.map((item, key) => [key, item])} />
 }
-export function DexieComponent({db, dispatch}: {db: Dexie, dispatch: Model.Dispatch}) {
+export function DexieComponent({settings, db, dispatch}: {settings: Model.Settings, db: Dexie, dispatch: Model.Dispatch}) {
   const state: State = useLiveQuery<State, {ready: false}>(async () => {
     let coll = await db.table('entries').toCollection()
     let keys = await coll.primaryKeys()
@@ -67,6 +67,6 @@ export function DexieComponent({db, dispatch}: {db: Dexie, dispatch: Model.Dispa
   }, [], {ready: false})
 
   return state.ready
-    ? <Main dispatch={dispatch} entries={state.entries} />
-    : <Loading />
+    ? <Main settings={settings} dispatch={dispatch} entries={state.entries} />
+    : <Loading settings={settings} />
 }

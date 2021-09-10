@@ -19,6 +19,10 @@ settings-link = Settings
 ## Settings
 ## https://freedbt.erosson.org/settings
 
+settings-darkmode-label = Dark Mode:
+settings-darkmode-default = Default theme
+settings-darkmode-light = Light mode
+settings-darkmode-dark = Dark mode
 erase-journal-button = Erase all entries
 erase-journal-confirm = Are you sure you want to erase your journal? There is no undo.
 

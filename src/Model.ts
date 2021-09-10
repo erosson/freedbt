@@ -46,10 +46,24 @@ export const distortions: Array<Distortion> = [
   'overgeneralization',
   'self-blaming',
   'should-statements',
-  ]
+]
+
+export type Settings = {
+  darkMode: DarkMode,
+}
+export type DarkMode = 'default' | 'light' | 'dark'
+export function isDarkMode(t: string): t is DarkMode {
+  return (
+    t === 'default'
+    || t === 'dark'
+    || t === 'light'
+  )
+}
+export const initSettings: Settings = {darkMode: 'default'}
 
 export type Action
   = {type: 'reset'}
+  | {type: 'settings.update', value: Settings}
   | {type: 'entry.create', data: Entry}
   | {type: 'entry.update', id: number, data: Entry}
   | {type: 'entry.delete', id: number}

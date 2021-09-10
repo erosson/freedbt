@@ -8,13 +8,14 @@ import * as Router from 'react-router-dom'
 import Form from '../../View/Form'
 import { Localized, useLocalization } from '@fluent/react';
 import Layout from '../../View/Layout'
+import Loading from '../../View/Loading'
 
 type State
   = {status: 'loading'}
   | {status: 'missing'}
   | {status: 'ready', entry: Model.Entry}
 
-function Main(p: {dispatch: Model.Dispatch, id: number, entry: Model.Entry}) {
+function Main(p: {dispatch: Model.Dispatch, id: number, entry: Model.Entry, settings: Model.Settings}) {
   const locale = useLocalization().l10n
   const deleted = React.useRef(false)
   const onDelete = (event: React.SyntheticEvent) => {
@@ -28,7 +29,7 @@ function Main(p: {dispatch: Model.Dispatch, id: number, entry: Model.Entry}) {
     return <Router.Redirect to="/" />
   }
   return (
-    <Layout>
+    <Layout settings={p.settings}>
       <h4><Localized id={`edit-${p.entry.type}`} vars={{id: p.id}} /></h4>
       <div>
         <Entry {...p} />
@@ -51,10 +52,10 @@ export function MemoryComponent({state, dispatch}: {state: DBMemory.State, dispa
   const id = parseInt(params.id)
   const entry = state.entries[id]
   return entry
-    ? <Main dispatch={dispatch} id={id} entry={entry} />
+    ? <Main dispatch={dispatch} id={id} entry={entry} settings={state.settings} />
     : <PageNotFound.MemoryComponent state={state} dispatch={dispatch} />
 }
-export function DexieComponent({db, dispatch}: {db: Dexie, dispatch: Model.Dispatch}) {
+export function DexieComponent({settings, db, dispatch}: {settings: Model.Settings, db: Dexie, dispatch: Model.Dispatch}) {
   const params = Router.useParams<{id: string}>()
   const id = parseInt(params.id)
   const state: State = useLiveQuery<State, State>(async () => {
@@ -65,10 +66,10 @@ export function DexieComponent({db, dispatch}: {db: Dexie, dispatch: Model.Dispa
   }, [], {status: 'loading'})
   switch(state.status) {
     case 'ready':
-      return <Main dispatch={dispatch} id={id} entry={state.entry} />
+      return <Main dispatch={dispatch} id={id} entry={state.entry} settings={settings} />
     case 'missing':
-      return <PageNotFound.DexieComponent db={db} dispatch={dispatch} />
+      return <PageNotFound.DexieComponent settings={settings} db={db} dispatch={dispatch} />
     case 'loading':
-      return <div className="App"><Localized id="loading" /></div>
+      return <Loading settings={settings} />
   }
 }

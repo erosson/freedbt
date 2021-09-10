@@ -21,7 +21,7 @@
   a:visited {
     @apply text-purple-600;
   }
-  body, input, textarea {
+  body, input, textarea, select {
     @apply bg-white text-black dark:bg-black dark:text-white p-2;
   }
   button {
@@ -36,14 +36,14 @@
   ol {
     @apply pl-8 list-decimal list-outside;
   }
-  input, textarea {
+  input, textarea, select {
     @apply border-2 border-black dark:border-white rounded-lg shadow-md;
   }
   p {
     @apply p-2;
   }
 }
-.App {
+.app-root {
 
 }
 .btn-secondary {

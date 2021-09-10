@@ -8,7 +8,7 @@ import PageNotFound from '../NotFound'
 import { Localized } from '@fluent/react';
 import Layout from '../../View/Layout'
 
-function Main(p: {dispatch: Model.Dispatch}) {
+function Main(p: {settings: Model.Settings, dispatch: Model.Dispatch}) {
   const params = Router.useParams<{type: string}>()
   const created = React.useRef(false)
   const onSubmit = (data: Model.Entry) => {
@@ -19,10 +19,10 @@ function Main(p: {dispatch: Model.Dispatch}) {
     return <Router.Redirect to="/" />
   }
   if (!Model.isEntryType(params.type)) {
-    return <PageNotFound />
+    return <PageNotFound settings={p.settings} />
   }
   return (
-    <Layout>
+    <Layout settings={p.settings}>
       <h4><Localized id={`create-${params.type}`} /></h4>
       <Form type={params.type} onSubmit={onSubmit} />
     </Layout>
@@ -30,8 +30,8 @@ function Main(p: {dispatch: Model.Dispatch}) {
 }
 
 export function MemoryComponent({state, dispatch}: {state: DBMemory.State, dispatch: Model.Dispatch}) {
-  return <Main dispatch={dispatch} />
+  return <Main settings={state.settings} dispatch={dispatch} />
 }
-export function DexieComponent({db, dispatch}: {db: Dexie, dispatch: Model.Dispatch}) {
-  return <Main dispatch={dispatch} />
+export function DexieComponent({settings, db, dispatch}: {settings: Model.Settings, db: Dexie, dispatch: Model.Dispatch}) {
+  return <Main settings={settings} dispatch={dispatch} />
 }
