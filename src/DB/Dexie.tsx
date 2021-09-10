@@ -10,9 +10,9 @@ import {useLiveQuery} from 'dexie-react-hooks'
 import Loading from '../View/Loading'
 
 function database() {
-  Dexie.delete('test')
-  Dexie.delete('test3')
-  Dexie.delete('test4')
+  // Dexie.delete('test')
+  // Dexie.delete('test3')
+  // Dexie.delete('test4')
   const db = new Dexie('FreeDBT')
   db.version(1).stores({
     entries: '$$,type,createdAt,updatedAt',
