@@ -1,5 +1,7 @@
 import React from 'react'
 import Dexie from 'dexie'
+import 'dexie-observable'
+import 'dexie-syncable'
 import * as Router from 'react-router-dom'
 import * as Model from '../Model'
 import * as Util from '../Util'
@@ -8,18 +10,12 @@ import {useLiveQuery} from 'dexie-react-hooks'
 import Loading from '../View/Loading'
 
 function database() {
-  const db = new Dexie('test3')
+  Dexie.delete('test')
+  Dexie.delete('test3')
+  const db = new Dexie('test4')
   db.version(1).stores({
-    entries: '++,type',
+    entries: '$$,type,createdAt,updatedAt',
     settings: '',
-  })
-  db.version(2).stores({
-    entries: '++,type,createdAt,updatedAt',
-  }).upgrade(tx => {
-    const createdAt = new Date()
-    return tx.table('entries').toCollection().modify(row => {
-      Object.assign(row, {createdAt, updatedAt: createdAt})
-    })
   })
   return db
 }

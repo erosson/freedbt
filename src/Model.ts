@@ -65,7 +65,8 @@ export type Action
   = {type: 'reset'}
   | {type: 'settings.update', value: Settings}
   | {type: 'entry.create', data: Entry}
-  | {type: 'entry.update', id: number, data: Entry}
-  | {type: 'entry.delete', id: number}
+  | {type: 'entry.update', id: EntryId, data: Entry}
+  | {type: 'entry.delete', id: EntryId}
+export type EntryId = string
 
 export type Dispatch = (a:Action) => void;

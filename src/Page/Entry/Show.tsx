@@ -15,7 +15,7 @@ type State
   | {status: 'missing'}
   | {status: 'ready', entry: Model.Entry}
 
-function Main(p: {dispatch: Model.Dispatch, id: number, entry: Model.Entry, settings: Model.Settings}) {
+function Main(p: {dispatch: Model.Dispatch, id: string, entry: Model.Entry, settings: Model.Settings}) {
   const locale = useLocalization().l10n
   const deleted = React.useRef(false)
   const onDelete = (event: React.SyntheticEvent) => {
@@ -40,7 +40,7 @@ function Main(p: {dispatch: Model.Dispatch, id: number, entry: Model.Entry, sett
     </Layout>
   );
 }
-function Entry(p: {dispatch: Model.Dispatch, id: number, entry: Model.Entry}) {
+function Entry(p: {dispatch: Model.Dispatch, id: string, entry: Model.Entry}) {
   function onSubmit(data: Model.Entry) {
     p.dispatch({type: 'entry.update', id: p.id, data})
   }
@@ -49,24 +49,22 @@ function Entry(p: {dispatch: Model.Dispatch, id: number, entry: Model.Entry}) {
 
 export function MemoryComponent({state, dispatch}: {state: DBMemory.State, dispatch: Model.Dispatch}) {
   const params = Router.useParams<{id: string}>()
-  const id = parseInt(params.id)
-  const entry = state.entries[id]
+  const entry = state.entries[parseInt(params.id)]
   return entry
-    ? <Main dispatch={dispatch} id={id} entry={entry} settings={state.settings} />
+    ? <Main dispatch={dispatch} id={params.id} entry={entry} settings={state.settings} />
     : <PageNotFound.MemoryComponent state={state} dispatch={dispatch} />
 }
 export function DexieComponent({settings, db, dispatch}: {settings: Model.Settings, db: Dexie, dispatch: Model.Dispatch}) {
   const params = Router.useParams<{id: string}>()
-  const id = parseInt(params.id)
   const state: State = useLiveQuery<State, State>(async () => {
-    const entry = await db.table('entries').get(id)
+    const entry = await db.table('entries').get(params.id)
     return entry
       ? {status: 'ready', entry}
       : {status: 'missing'}
   }, [], {status: 'loading'})
   switch(state.status) {
     case 'ready':
-      return <Main dispatch={dispatch} id={id} entry={state.entry} settings={settings} />
+      return <Main dispatch={dispatch} id={params.id} entry={state.entry} settings={settings} />
     case 'missing':
       return <PageNotFound.DexieComponent settings={settings} db={db} dispatch={dispatch} />
     case 'loading':

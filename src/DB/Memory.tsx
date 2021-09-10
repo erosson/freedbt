@@ -17,9 +17,9 @@ function reducer(state: State, action: Action): State {
     case 'entry.create':
       return {...state, entries: [action.data, ...state.entries]}
     case 'entry.update':
-      return {...state, entries: [...state.entries.slice(action.id), action.data, ...state.entries.slice(action.id+1, state.entries.length)]}
+      return {...state, entries: [...state.entries.slice(parseInt(action.id)), action.data, ...state.entries.slice(parseInt(action.id)+1, state.entries.length)]}
     case 'entry.delete':
-      return {...state, entries: [...state.entries.slice(action.id), ...state.entries.slice(action.id+1, state.entries.length)]}
+      return {...state, entries: [...state.entries.slice(parseInt(action.id)), ...state.entries.slice(parseInt(action.id)+1, state.entries.length)]}
   }
 }
 

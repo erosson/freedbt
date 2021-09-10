@@ -59,7 +59,7 @@ export function MemoryComponent({state, dispatch}: {state: DBMemory.State, dispa
 }
 export function DexieComponent({settings, db, dispatch}: {settings: Model.Settings, db: Dexie, dispatch: Model.Dispatch}) {
   const state: State = useLiveQuery<State, {ready: false}>(async () => {
-    let coll = await db.table('entries').toCollection()
+    let coll = await db.table('entries').orderBy('createdAt')
     let keys = await coll.primaryKeys()
     let vals: Model.Entry[] = await coll.toArray()
     let entries: Array<[number, Model.Entry]> = keys.map((k, i) => [k as number, vals[i]])
