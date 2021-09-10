@@ -1,13 +1,54 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@layer base {
+  h1 {
+    @apply text-2xl;
+  }
+  h2 {
+    @apply text-xl;
+  }
+  h3 {
+    @apply text-lg;
+  }
+  h1,h2,h3,h4 {
+    @apply font-semibold;
+  }
+  a {
+    @apply text-blue-600 underline;
+  }
+  a:visited {
+    @apply text-purple-600;
+  }
+  body, input, textarea {
+    @apply bg-white text-black dark:bg-black dark:text-white p-2;
+  }
+  button {
+    @apply py-2 px-4 font-semibold rounded-lg shadow-md;
+  /* .btn-primary { */
+    @apply text-white bg-green-500 hover:bg-green-700;
+  /* } */
+  }
+  ul {
+    @apply pl-8 list-disc list-outside;
+  }
+  ol {
+    @apply pl-8 list-decimal list-outside;
+  }
+  input, textarea {
+    @apply border-2 border-black dark:border-white rounded-lg shadow-md;
+  }
+  p {
+    @apply p-2;
+  }
+}
+.App {
+
+}
+.btn-secondary {
+  @apply text-white bg-gray-500 hover:bg-gray-700;
+}
+.btn-danger {
+  @apply text-white bg-red-500 hover:bg-red-700;
 }

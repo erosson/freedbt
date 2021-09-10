@@ -14,6 +14,11 @@ create-journal = Write a new journal
 create-cbt = Write a new CBT
 create-dbt-emotion-regulation-5 = Write new DBT - Emotion Regulation (5)
 edit-entry = Edit entry #{ $id }
+settings-link = Settings
+
+## Settings
+## https://freedbt.erosson.org/settings
+
 erase-journal-button = Erase all entries
 erase-journal-confirm = Are you sure you want to erase your journal? There is no undo.
 

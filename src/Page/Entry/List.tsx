@@ -4,23 +4,17 @@ import * as DBMemory from '../../DB/Memory'
 import Dexie from 'dexie'
 import {Link} from 'react-router-dom'
 import {useLiveQuery} from 'dexie-react-hooks'
-import { Localized, useLocalization } from '@fluent/react';
+import { Localized } from '@fluent/react';
+import Layout from '../../View/Layout'
+import Loading from '../../View/Loading'
 
 type State
   = {ready: false}
   | {ready: true, entries: Array<[number, Model.Entry]>}
 
 function Main(p: {dispatch: Model.Dispatch, entries: Array<[number, Model.Entry]>}) {
-  const locale = useLocalization().l10n
-  const onErase = (event: React.SyntheticEvent) => {
-    event.preventDefault()
-    if (window.confirm(locale.getString('erase-journal-confirm'))) {
-      p.dispatch({type: 'reset'})
-    }
-  }
   return (
-    <div className="App">
-      <h3><Link to="/"><Localized id="title" /></Link></h3>
+    <Layout>
       <p><Link to={`/entries/create/journal`}><Localized id="create-journal" /></Link></p>
       <p><Link to={`/entries/create/cbt`}><Localized id="create-cbt" /></Link></p>
       <p><Link to={`/entries/create/dbt-emotion-regulation-5`}><Localized id="create-dbt-emotion-regulation-5" /></Link></p>
@@ -32,8 +26,8 @@ function Main(p: {dispatch: Model.Dispatch, entries: Array<[number, Model.Entry]
         </li>
       )).reverse()}
       </ul>
-      <button onClick={onErase}><Localized id="erase-journal-button" /></button>
-    </div>
+      <p><Link to={`/settings`}><Localized id="settings-link" /></Link></p>
+    </Layout>
   );
 }
 
@@ -74,5 +68,5 @@ export function DexieComponent({db, dispatch}: {db: Dexie, dispatch: Model.Dispa
 
   return state.ready
     ? <Main dispatch={dispatch} entries={state.entries} />
-    : <div className="App"><Localized id="loading" /></div>
+    : <Loading />
 }

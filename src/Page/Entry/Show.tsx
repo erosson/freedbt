@@ -3,11 +3,11 @@ import * as Model from '../../Model'
 import * as DBMemory from '../../DB/Memory'
 import * as PageNotFound from '../NotFound'
 import Dexie from 'dexie'
-import {Link} from 'react-router-dom'
 import {useLiveQuery} from 'dexie-react-hooks'
 import * as Router from 'react-router-dom'
 import Form from '../../View/Form'
 import { Localized, useLocalization } from '@fluent/react';
+import Layout from '../../View/Layout'
 
 type State
   = {status: 'loading'}
@@ -28,16 +28,15 @@ function Main(p: {dispatch: Model.Dispatch, id: number, entry: Model.Entry}) {
     return <Router.Redirect to="/" />
   }
   return (
-    <div className="App">
-      <h3><Link to="/"><Localized id="title" /></Link></h3>
+    <Layout>
       <h4><Localized id={`edit-${p.entry.type}`} vars={{id: p.id}} /></h4>
       <div>
         <Entry {...p} />
         <div><Localized id="created-at" vars={{date: p.entry.createdAt}} /></div>
         <div><Localized id="updated-at" vars={{date: p.entry.updatedAt}} /></div>
       </div>
-      <p><button onClick={onDelete}><Localized id="delete-entry-button" /></button></p>
-    </div>
+      <button className="btn-danger" onClick={onDelete}><Localized id="delete-entry-button" /></button>
+    </Layout>
   );
 }
 function Entry(p: {dispatch: Model.Dispatch, id: number, entry: Model.Entry}) {

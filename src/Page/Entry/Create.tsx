@@ -2,11 +2,11 @@ import React from 'react'
 import * as Model from '../../Model'
 import * as DBMemory from '../../DB/Memory'
 import Dexie from 'dexie'
-import {Link} from 'react-router-dom'
 import * as Router from 'react-router-dom'
 import Form from '../../View/Form'
 import PageNotFound from '../NotFound'
 import { Localized } from '@fluent/react';
+import Layout from '../../View/Layout'
 
 function Main(p: {dispatch: Model.Dispatch}) {
   const params = Router.useParams<{type: string}>()
@@ -22,11 +22,10 @@ function Main(p: {dispatch: Model.Dispatch}) {
     return <PageNotFound />
   }
   return (
-    <div className="App">
-      <h3><Link to="/"><Localized id="title" /></Link></h3>
+    <Layout>
       <h4><Localized id={`create-${params.type}`} /></h4>
       <Form type={params.type} onSubmit={onSubmit} />
-    </div>
+    </Layout>
   );
 }
 

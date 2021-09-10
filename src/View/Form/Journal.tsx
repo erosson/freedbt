@@ -19,10 +19,14 @@ function Main(p: {entry?: Entry, onSubmit: (e:Entry) => void}) {
   }
   return (
     <form onSubmit={onSubmit}>
-      <div><Localized id="journal-body" attrs={{placeholder: true}}>
-        <textarea id="entry" value={body} onChange={(event) => setBody(event.target.value)} style={{width: '100%', maxWidth: '80em', height: '10em'}} />
-      </Localized></div>
-      <button type="submit"><Localized id="submit" /></button>
+      <div>
+        <Localized id="journal-body" attrs={{placeholder: true}}>
+          <textarea id="entry" value={body} onChange={(event) => setBody(event.target.value)} style={{width: '100%', maxWidth: '80em', height: '10em'}} />
+        </Localized>
+      </div>
+      <button type="submit">
+        <Localized id="submit" />
+      </button>
     </form>
   )
 }

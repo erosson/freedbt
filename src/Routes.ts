@@ -4,6 +4,7 @@ import Dexie from 'dexie'
 
 import * as PageNotFound from './Page/NotFound'
 import * as PageDebug from './Page/Debug'
+import * as PageSettings from './Page/Settings'
 import * as PageEntryList from './Page/Entry/List'
 import * as PageEntryShow from './Page/Entry/Show'
 import * as PageEntryCreate from './Page/Entry/Create'
@@ -19,5 +20,6 @@ export const routes: Array<RouteSpec> = [
   {exact: true, path: '/entries/create/:type', component: PageEntryCreate},
   {exact: true, path: '/entries/:id', component: PageEntryShow},
   {exact: true, path: '/debug', component: PageDebug},
+  {exact: true, path: '/settings', component: PageSettings},
   {path: '*', component: PageNotFound},
 ]

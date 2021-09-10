@@ -3,8 +3,8 @@ import * as Model from '../Model'
 import * as DBMemory from '../DB/Memory'
 import Dexie from 'dexie'
 import {useLiveQuery} from 'dexie-react-hooks'
-import {Link} from 'react-router-dom'
-import { Localized } from '@fluent/react';
+import Layout from '../View/Layout'
+import Loading from '../View/Loading'
 
 type State
   = {ready: false}
@@ -12,10 +12,9 @@ type State
 
 function Main(p: {entries: Model.Entry[], ver: number, dispatch: Model.Dispatch}) {
   return (
-    <div className="App">
-      <h3><Link to="/"><Localized id="title" /></Link></h3>
+    <Layout>
       <pre>{JSON.stringify(p, null, 2)}</pre>
-    </div>
+    </Layout>
   );
 }
 
@@ -28,5 +27,5 @@ export function DexieComponent({db, dispatch}: {db: Dexie, dispatch: Model.Dispa
   ), [], {ready: false})
   return state.ready
     ? <Main dispatch={dispatch} entries={state.entries} ver={state.ver} />
-    : <div className="App"><Localized id="loading" /></div>
+    : <Loading />
 }
