@@ -20,10 +20,15 @@ function reducer(state: State, action: Action): State {
       return {...state, entries: [...state.entries.slice(parseInt(action.id)), action.data, ...state.entries.slice(parseInt(action.id)+1, state.entries.length)]}
     case 'entry.delete':
       return {...state, entries: [...state.entries.slice(parseInt(action.id)), ...state.entries.slice(parseInt(action.id)+1, state.entries.length)]}
+    case 'auth.register':
+    case 'auth.login':
+    case 'auth.logout':
+      // TODO
+      return state
   }
 }
 
-function Main({routes}: {routes: Array<RouteSpec>}) {
+function Memory({routes}: {routes: Array<RouteSpec>}) {
   const [state, dispatch]: [State, (a:Action) => void]
     = React.useReducer(reducer, initState)
   React.useEffect(() => {
@@ -39,4 +44,4 @@ function Main({routes}: {routes: Array<RouteSpec>}) {
     </Router.Switch>
   )
 }
-export default Main
+export default Memory

@@ -10,7 +10,7 @@ type State
   = {ready: false}
   | {ready: true, ver: number, entries: Model.Entry[]}
 
-function Main(p: {settings: Model.Settings, entries: Model.Entry[], ver: number, dispatch: Model.Dispatch}) {
+function Page(p: {settings: Model.Settings, entries: Model.Entry[], ver: number, dispatch: Model.Dispatch}) {
   return (
     <Layout settings={p.settings}>
       <pre>{JSON.stringify(p, null, 2)}</pre>
@@ -19,13 +19,13 @@ function Main(p: {settings: Model.Settings, entries: Model.Entry[], ver: number,
 }
 
 export function MemoryComponent({state, dispatch}: {state: DBMemory.State, dispatch: Model.Dispatch}) {
-  return <Main dispatch={dispatch} settings={state.settings} entries={state.entries} ver={0} />
+  return <Page dispatch={dispatch} settings={state.settings} entries={state.entries} ver={0} />
 }
 export function DexieComponent({settings, db, dispatch}: {settings: Model.Settings, db: Dexie, dispatch: Model.Dispatch}) {
   const state: State = useLiveQuery<State, {ready: false}>(async () => (
     {ready: true, entries: await db.table('entries').toArray(), ver: db.verno}
   ), [], {ready: false})
   return state.ready
-    ? <Main dispatch={dispatch} settings={settings} entries={state.entries} ver={state.ver} />
-    : <Loading settings={settings} />
+    ? <Page dispatch={dispatch} settings={settings} entries={state.entries} ver={state.ver} />
+    : <Loading settings={settings} phase="page.debug" />
 }

@@ -4,7 +4,7 @@ import { Localized } from '@fluent/react';
 
 type Entry = Model.JournalEntry
 
-function Main(p: {entry?: Entry, onSubmit: (e:Entry) => void}) {
+function JournalForm(p: {entry?: Entry, onSubmit: (e:Entry) => void}) {
   const [body, setBody] = React.useState(p.entry?.body || '')
   function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault()
@@ -30,4 +30,4 @@ function Main(p: {entry?: Entry, onSubmit: (e:Entry) => void}) {
     </form>
   )
 }
-export default Main
+export default JournalForm

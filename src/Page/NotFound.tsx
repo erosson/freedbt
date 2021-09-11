@@ -5,7 +5,7 @@ import Dexie from 'dexie'
 import { Localized } from '@fluent/react';
 import Layout from '../View/Layout'
 
-export function Main(p: {settings: Model.Settings}) {
+export function Page(p: {settings: Model.Settings}) {
   return (
     <Layout settings={p.settings}>
       <p><Localized id="page-not-found" /></p>
@@ -14,9 +14,9 @@ export function Main(p: {settings: Model.Settings}) {
 }
 
 export function MemoryComponent({state, dispatch}: {state: DBMemory.State, dispatch: Model.Dispatch}) {
-  return <Main settings={state.settings} />
+  return <Page settings={state.settings} />
 }
 export function DexieComponent({settings, db, dispatch}: {settings: Model.Settings, db: Dexie, dispatch: Model.Dispatch}) {
-  return <Main settings={settings} />
+  return <Page settings={settings} />
 }
-export default Main
+export default Page

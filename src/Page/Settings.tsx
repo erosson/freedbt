@@ -5,7 +5,7 @@ import Dexie from 'dexie'
 import { Localized, useLocalization } from '@fluent/react';
 import Layout from '../View/Layout'
 
-function Main(p: {settings: Model.Settings, dispatch: Model.Dispatch}) {
+function Page(p: {settings: Model.Settings, dispatch: Model.Dispatch}) {
   const locale = useLocalization().l10n
   const onSetDarkMode = (event: React.ChangeEvent<HTMLSelectElement>) => {
     event.preventDefault()
@@ -40,8 +40,8 @@ function Main(p: {settings: Model.Settings, dispatch: Model.Dispatch}) {
 }
 
 export function MemoryComponent({state, dispatch}: {state: DBMemory.State, dispatch: Model.Dispatch}) {
-  return <Main settings={state.settings} dispatch={dispatch} />
+  return <Page settings={state.settings} dispatch={dispatch} />
 }
 export function DexieComponent({settings, db, dispatch}: {settings: Model.Settings, db: Dexie, dispatch: Model.Dispatch}) {
-  return <Main settings={settings} dispatch={dispatch} />
+  return <Page settings={settings} dispatch={dispatch} />
 }

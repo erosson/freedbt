@@ -4,7 +4,7 @@ import { Localized } from '@fluent/react';
 
 type Entry = Model.CBTEntry
 
-function Main(p: {entry?: Entry, onSubmit: (e:Entry) => void}) {
+function CBTForm(p: {entry?: Entry, onSubmit: (e:Entry) => void}) {
   const [problem, setProblem] = React.useState(p.entry?.problem || '')
   const [distortions, setDistortions] = React.useState(p.entry?.distortions || new Set<Model.Distortion>([]))
   const [challenge, setChallenge] = React.useState(p.entry?.challenge || '')
@@ -92,4 +92,4 @@ function cbtIcon(p: {distortion: Model.Distortion}):string {
     case 'should-statements': return '✨'
   }
 }
-export default Main
+export default CBTForm

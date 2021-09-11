@@ -8,7 +8,7 @@ import PageNotFound from '../NotFound'
 import { Localized } from '@fluent/react';
 import Layout from '../../View/Layout'
 
-function Main(p: {settings: Model.Settings, dispatch: Model.Dispatch}) {
+function Page(p: {settings: Model.Settings, dispatch: Model.Dispatch}) {
   const params = Router.useParams<{type: string}>()
   const created = React.useRef(false)
   const onSubmit = (data: Model.Entry) => {
@@ -30,8 +30,8 @@ function Main(p: {settings: Model.Settings, dispatch: Model.Dispatch}) {
 }
 
 export function MemoryComponent({state, dispatch}: {state: DBMemory.State, dispatch: Model.Dispatch}) {
-  return <Main settings={state.settings} dispatch={dispatch} />
+  return <Page settings={state.settings} dispatch={dispatch} />
 }
 export function DexieComponent({settings, db, dispatch}: {settings: Model.Settings, db: Dexie, dispatch: Model.Dispatch}) {
-  return <Main settings={settings} dispatch={dispatch} />
+  return <Page settings={settings} dispatch={dispatch} />
 }

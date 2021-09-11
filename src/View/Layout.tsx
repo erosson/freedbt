@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 import { Localized } from '@fluent/react';
 import * as Model from '../Model'
 
-function Main(p: {settings: Model.Settings, children: React.ReactNode}) {
+function Layout(p: {settings: Model.Settings, children: React.ReactNode}) {
   const isDarkDefault = window.matchMedia('(prefers-color-scheme: dark)').matches
   const isDark = p.settings.darkMode === 'dark' || (p.settings.darkMode === 'default' && isDarkDefault)
   // in tailwind, `class="dark"` affects all child elements.
@@ -22,4 +22,4 @@ function Main(p: {settings: Model.Settings, children: React.ReactNode}) {
     </div>
   )
 }
-export default Main
+export default Layout

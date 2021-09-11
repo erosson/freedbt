@@ -1,13 +1,15 @@
 import React from 'react'
 import Dexie from 'dexie'
 import 'dexie-observable'
-import 'dexie-syncable'
+import 'dexie-syncable' // required for uuid primary keys (`$$`)
 import * as Router from 'react-router-dom'
 import * as Model from '../Model'
 import * as Util from '../Util'
 import {RouteSpec} from '../Routes'
 import {useLiveQuery} from 'dexie-react-hooks'
 import Loading from '../View/Loading'
+import './Dexie/UserbaseSyncProtocol'
+import * as DBUserbase from './Userbase'
 
 function database() {
   // Dexie.delete('test')
@@ -18,11 +20,17 @@ function database() {
     entries: '$$,type,createdAt,updatedAt',
     settings: '',
   })
+  //db.syncable.connect("userbase", "https://userbase.com")
+  //db.syncable.on('statusChanged', function (newStatus, url) {
+  //  console.log ("Sync Status changed: " + Dexie.Syncable.StatusTexts[newStatus]);
+  //});
+  //console.log('db.syncable connected?')
   return db
 }
 
-function Main({routes}: {routes: Array<RouteSpec>}) {
+function Dexie_({routes}: {routes: Array<RouteSpec>}) {
   const db = React.useRef(database()).current
+  const userbase = React.useContext(DBUserbase.UpdateContext)
 
   const dispatch = Util.useSideEffect((action: Model.Action): null => {
     switch (action.type) {
@@ -41,6 +49,15 @@ function Main({routes}: {routes: Array<RouteSpec>}) {
       case 'entry.delete':
         db.table('entries').delete(action.id)
         return null
+      case 'auth.register':
+        userbase.register(action)
+        return null
+      case 'auth.login':
+        userbase.login(action)
+        return null
+      case 'auth.logout':
+        userbase.logout(action)
+        return null
     }
   })
 
@@ -49,7 +66,7 @@ function Main({routes}: {routes: Array<RouteSpec>}) {
   }, [], null)
 
   if (!settings) {
-    return <Loading settings={Model.initSettings} />
+    return <Loading settings={Model.initSettings} phase="dexie.settings" />
   }
   return (
     <Router.Switch>
@@ -61,4 +78,4 @@ function Main({routes}: {routes: Array<RouteSpec>}) {
     </Router.Switch>
   )
 }
-export default Main
+export default Dexie_

@@ -4,7 +4,7 @@ import { Localized } from '@fluent/react';
 
 type Entry = Model.DBTEmotionRegulation5Entry
 
-function Main(p: {entry?: Entry, onSubmit: (e:Entry) => void}) {
+function DBTForm(p: {entry?: Entry, onSubmit: (e:Entry) => void}) {
   const [emotionName, setEmotionName] = React.useState(p.entry?.emotion.name || '')
   const [emotionIntensity, setEmotionIntensity] = React.useState(p.entry?.emotion.intensity || 0)
 
@@ -144,4 +144,4 @@ function Main(p: {entry?: Entry, onSubmit: (e:Entry) => void}) {
     </form>
   )
 }
-export default Main
+export default DBTForm

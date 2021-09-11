@@ -1,3 +1,5 @@
+import {UserProfile, RememberMeOption} from 'userbase-js/types'
+
 export type Entry = JournalEntry | CBTEntry | DBTEmotionRegulation5Entry
 export type JournalEntry = {type: 'journal', createdAt: Date, updatedAt: Date, body: string}
 export type CBTEntry = {type: 'cbt', createdAt: Date, updatedAt: Date, problem: string, distortions: Set<Distortion>, challenge: string, alternative: string}
@@ -67,6 +69,9 @@ export type Action
   | {type: 'entry.create', data: Entry}
   | {type: 'entry.update', id: EntryId, data: Entry}
   | {type: 'entry.delete', id: EntryId}
+  | {type: 'auth.register', username: string, password: string, email?: string, profile?: UserProfile, rememberMe: RememberMeOption}
+  | {type: 'auth.login', username: string, password: string, rememberMe: RememberMeOption}
+  | {type: 'auth.logout'}
 export type EntryId = string
 
 export type Dispatch = (a:Action) => void;
