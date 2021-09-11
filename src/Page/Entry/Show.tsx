@@ -15,7 +15,7 @@ type State
   | {status: 'missing'}
   | {status: 'ready', entry: Model.Entry}
 
-function Page(p: {dispatch: Model.Dispatch, id: string, entry: Model.Entry, settings: Model.Settings}) {
+function Page(p: {dispatch: Model.Dispatch, id: string, entry: Model.Entry}) {
   const locale = useLocalization().l10n
   const deleted = React.useRef(false)
   const onDelete = (event: React.SyntheticEvent) => {
@@ -29,7 +29,7 @@ function Page(p: {dispatch: Model.Dispatch, id: string, entry: Model.Entry, sett
     return <Router.Redirect to="/" />
   }
   return (
-    <Layout settings={p.settings}>
+    <Layout>
       <h4><Localized id={`edit-${p.entry.type}`} vars={{id: p.id}} /></h4>
       <div>
         <Entry {...p} />
@@ -51,10 +51,10 @@ export function MemoryComponent({state, dispatch}: {state: DBMemory.State, dispa
   const params = Router.useParams<{id: string}>()
   const entry = state.entries[parseInt(params.id)]
   return entry
-    ? <Page dispatch={dispatch} id={params.id} entry={entry} settings={state.settings} />
+    ? <Page dispatch={dispatch} id={params.id} entry={entry} />
     : <PageNotFound.MemoryComponent state={state} dispatch={dispatch} />
 }
-export function DexieComponent({settings, db, dispatch}: {settings: Model.Settings, db: Dexie, dispatch: Model.Dispatch}) {
+export function DexieComponent({db, dispatch}: {db: Dexie, dispatch: Model.Dispatch}) {
   const params = Router.useParams<{id: string}>()
   const state: State = useLiveQuery<State, State>(async () => {
     const entry = await db.table('entries').get(params.id)
@@ -64,10 +64,10 @@ export function DexieComponent({settings, db, dispatch}: {settings: Model.Settin
   }, [], {status: 'loading'})
   switch(state.status) {
     case 'ready':
-      return <Page dispatch={dispatch} id={params.id} entry={state.entry} settings={settings} />
+      return <Page dispatch={dispatch} id={params.id} entry={state.entry} />
     case 'missing':
-      return <PageNotFound.DexieComponent settings={settings} db={db} dispatch={dispatch} />
+      return <PageNotFound.DexieComponent db={db} dispatch={dispatch} />
     case 'loading':
-      return <Loading settings={settings} phase="page.show" />
+      return <Loading phase="page.show" />
   }
 }

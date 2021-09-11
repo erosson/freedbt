@@ -1,4 +1,10 @@
 import React from 'react'
+import * as Model from './Model'
+import * as DBUserbase from './DB/Userbase'
+
+export const UserbaseContext = DBUserbase.Context
+export const UserbaseUpdateContext = DBUserbase.UpdateContext
+export const SettingsContext = React.createContext<Model.Settings | null>(null)
 
 export function useSideEffect<A>(effect: (a:A) => null): ((a:A) => void) {
   type Action

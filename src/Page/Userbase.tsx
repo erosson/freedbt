@@ -56,7 +56,7 @@ function Logout(p: {dispatch: Model.Dispatch}) {
   }
   return <button onClick={onSubmit}>Log out</button>
 }
-export function Page(p: {settings: Model.Settings, dispatch: Model.Dispatch}) {
+export function Page(p: {dispatch: Model.Dispatch}) {
   const session = React.useContext<DBUserbase.Session>(DBUserbase.Context)
   const body = session.user
     ? (
@@ -72,16 +72,16 @@ export function Page(p: {settings: Model.Settings, dispatch: Model.Dispatch}) {
       </div>
     )
   return (
-    <Layout settings={p.settings}>
+    <Layout>
       {body}
     </Layout>
   );
 }
 
 export function MemoryComponent({state, dispatch}: {state: DBMemory.State, dispatch: Model.Dispatch}) {
-  return <Page settings={state.settings} dispatch={dispatch} />
+  return <Page dispatch={dispatch} />
 }
-export function DexieComponent({settings, db, dispatch}: {settings: Model.Settings, db: Dexie, dispatch: Model.Dispatch}) {
-  return <Page settings={settings} dispatch={dispatch} />
+export function DexieComponent({db, dispatch}: {db: Dexie, dispatch: Model.Dispatch}) {
+  return <Page dispatch={dispatch} />
 }
 export default Page

@@ -2,7 +2,6 @@ import React from 'react'
 // import Dexie from 'dexie'
 import 'dexie-observable'
 import 'dexie-syncable' // required for uuid primary keys (`$$`)
-import * as Model from '../Model'
 import Loading from '../View/Loading'
 import './Dexie/UserbaseSyncProtocol'
 import Userbase from 'userbase-js'
@@ -72,7 +71,7 @@ function Userbase_(p: {children: React.ReactNode}) {
     })()
   }, [])
   if (!init) {
-    return <Loading settings={Model.initSettings} phase="userbase.init" />
+    return <Loading phase="userbase.init" />
   }
   return (
     <UpdateContext.Provider value={update.current}>

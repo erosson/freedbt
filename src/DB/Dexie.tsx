@@ -45,6 +45,22 @@ function DexieUserbaseSync({db}: {db: Dexie}) {
   return null
 }
 
+function DexieSettings(p: {db: Dexie, children: React.ReactNode}) {
+  const settings: null | Model.Settings = useLiveQuery<Model.Settings, null>(async () => {
+    return (await p.db.table('settings').toCollection().first()) || Model.initSettings
+  }, [], null)
+
+  if (!settings) {
+    return <Loading phase="dexie.settings" />
+  }
+
+  return (
+    <Util.SettingsContext.Provider value={settings}>
+      {p.children}
+    </Util.SettingsContext.Provider>
+  )
+}
+
 function Dexie_({routes}: {routes: Array<RouteSpec>}) {
   const db = React.useRef(initDatabase()).current
   const userbase = React.useContext(DBUserbase.UpdateContext)
@@ -77,24 +93,18 @@ function Dexie_({routes}: {routes: Array<RouteSpec>}) {
         return null
     }
   })
-
-  const settings: null | Model.Settings = useLiveQuery<Model.Settings, null>(async () => {
-    return (await db.table('settings').toCollection().first()) || Model.initSettings
-  }, [], null)
-
-  if (!settings) {
-    return <Loading settings={Model.initSettings} phase="dexie.settings" />
-  }
   return (
     <>
       <DexieUserbaseSync db={db} />
-      <Router.Switch>
-        {routes.map((route, index) => (
-          <Router.Route key={index} exact={route.exact} path={route.path}>
-            <route.component.DexieComponent db={db} dispatch={dispatch} settings={settings} />
-          </Router.Route>
-        ))}
-      </Router.Switch>
+      <DexieSettings db={db}>
+        <Router.Switch>
+          {routes.map((route, index) => (
+            <Router.Route key={index} exact={route.exact} path={route.path}>
+              <route.component.DexieComponent db={db} dispatch={dispatch} />
+            </Router.Route>
+          ))}
+        </Router.Switch>
+      </DexieSettings>
     </>
   )
 }

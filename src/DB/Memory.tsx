@@ -1,6 +1,7 @@
 import React from 'react'
 import * as Router from 'react-router-dom'
 import * as Model from '../Model'
+import * as Util from '../Util'
 import {RouteSpec} from '../Routes'
 
 export type State = {entries: Array<Model.Entry>, settings: Model.Settings}
@@ -35,13 +36,15 @@ function Memory({routes}: {routes: Array<RouteSpec>}) {
     dispatch({type: 'reset'})
   }, [])
   return (
-    <Router.Switch>
-      {routes.map((route, index) => (
-        <Router.Route key={index} exact={route.exact} path={route.path}>
-          <route.component.MemoryComponent state={state} dispatch={dispatch} />
-        </Router.Route>
-      ))}
-    </Router.Switch>
+    <Util.SettingsContext.Provider value={state.settings}>
+      <Router.Switch>
+        {routes.map((route, index) => (
+          <Router.Route key={index} exact={route.exact} path={route.path}>
+            <route.component.MemoryComponent state={state} dispatch={dispatch} />
+          </Router.Route>
+        ))}
+      </Router.Switch>
+    </Util.SettingsContext.Provider>
   )
 }
 export default Memory

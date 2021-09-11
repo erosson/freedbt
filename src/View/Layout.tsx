@@ -2,10 +2,12 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import { Localized } from '@fluent/react';
 import * as Model from '../Model'
+import * as Util from '../Util'
 
-function Layout(p: {settings: Model.Settings, children: React.ReactNode}) {
+function Layout(p: {children: React.ReactNode}) {
+  const settings = React.useContext(Util.SettingsContext) || Model.initSettings
   const isDarkDefault = window.matchMedia('(prefers-color-scheme: dark)').matches
-  const isDark = p.settings.darkMode === 'dark' || (p.settings.darkMode === 'default' && isDarkDefault)
+  const isDark = settings.darkMode === 'dark' || (settings.darkMode === 'default' && isDarkDefault)
   // in tailwind, `class="dark"` affects all child elements.
   // `.app-root` doesn't always have full height though, so append to `<html>`
   if (isDark) {
