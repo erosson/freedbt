@@ -11,7 +11,7 @@ import Loading from '../View/Loading'
 import './Dexie/UserbaseSyncProtocol'
 import * as DBUserbase from './Userbase'
 
-function database() {
+function initDatabase(): Dexie {
   // Dexie.delete('test')
   // Dexie.delete('test3')
   // Dexie.delete('test4')
@@ -20,16 +20,33 @@ function database() {
     entries: '$$,type,createdAt,updatedAt',
     settings: '',
   })
-  //db.syncable.connect("userbase", "https://userbase.com")
-  //db.syncable.on('statusChanged', function (newStatus, url) {
-  //  console.log ("Sync Status changed: " + Dexie.Syncable.StatusTexts[newStatus]);
-  //});
-  //console.log('db.syncable connected?')
   return db
 }
 
+function DexieUserbaseSync({db}: {db: Dexie}) {
+  const session = React.useContext<DBUserbase.Session>(DBUserbase.Context)
+  const [syncing, setSyncing] = React.useState<boolean>(false)
+  const userbaseSyncUrl = 'https://userbase.com'
+  React.useEffect(() => {
+    if (session.user && !syncing) {
+      db.syncable.connect('userbase', userbaseSyncUrl, {user: session.user})
+        .then(() => console.log('userbase.sync: connected'))
+        .catch(err => console.error('userbase.sync: connect error', err))
+      setSyncing(true)
+    }
+    else if (!session.user && syncing) {
+      db.syncable.disconnect(userbaseSyncUrl).catch(err => console.error(err))
+        .then(() => console.log('userbase.sync: disconnected'))
+        .catch(err => console.error('userbase.sync: disconnect error', err))
+      setSyncing(false)
+    }
+  }, [session.user, syncing, db.syncable])
+
+  return null
+}
+
 function Dexie_({routes}: {routes: Array<RouteSpec>}) {
-  const db = React.useRef(database()).current
+  const db = React.useRef(initDatabase()).current
   const userbase = React.useContext(DBUserbase.UpdateContext)
 
   const dispatch = Util.useSideEffect((action: Model.Action): null => {
@@ -69,13 +86,16 @@ function Dexie_({routes}: {routes: Array<RouteSpec>}) {
     return <Loading settings={Model.initSettings} phase="dexie.settings" />
   }
   return (
-    <Router.Switch>
-      {routes.map((route, index) => (
-        <Router.Route key={index} exact={route.exact} path={route.path}>
-          <route.component.DexieComponent db={db} dispatch={dispatch} settings={settings} />
-        </Router.Route>
-      ))}
-    </Router.Switch>
+    <>
+      <DexieUserbaseSync db={db} />
+      <Router.Switch>
+        {routes.map((route, index) => (
+          <Router.Route key={index} exact={route.exact} path={route.path}>
+            <route.component.DexieComponent db={db} dispatch={dispatch} settings={settings} />
+          </Router.Route>
+        ))}
+      </Router.Switch>
+    </>
   )
 }
 export default Dexie_
