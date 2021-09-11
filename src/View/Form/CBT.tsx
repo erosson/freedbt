@@ -33,45 +33,47 @@ function CBTForm(p: {entry?: Entry, onSubmit: (e:Entry) => void}) {
   }
   return (
     <form onSubmit={onSubmit}>
-      <div>
-        <label htmlFor="problem"><Localized id="cbt-problem" /></label>
-        <div>
-          <Localized id="cbt-problem-body" attrs={{placeholder: true}}>
-            <textarea id="problem" value={problem} onChange={(event) => setProblem(event.target.value)} style={{width: '100%', maxWidth: '80em', height: '10em'}} />
-          </Localized>
-        </div>
-      </div>
-      <div>
-        <label><Localized id="cbt-distortions" /></label>
-        {Model.distortions.map(distortion => (
-          <div key={distortion}>
-            <label htmlFor={`distortion-${distortion}`}>
-              <div>
-                <input type="checkbox" id={`distortion-${distortion}`} checked={distortions.has(distortion)} onChange={onDistortionChecked(distortion)} />
-                {cbtIcon({distortion: distortion})}
-                <Localized id={`cbt-distortion-${distortion}`} />
-              </div>
-              <div><i><Localized id={`cbt-distortion-example-${distortion}`} /></i></div>
-            </label>
+      <ul>
+        <li>
+          <label htmlFor="problem"><Localized id="cbt-problem" /></label>
+          <div>
+            <Localized id="cbt-problem-body" attrs={{placeholder: true}}>
+              <textarea id="problem" value={problem} onChange={(event) => setProblem(event.target.value)} style={{width: '100%', maxWidth: '80em', height: '10em'}} />
+            </Localized>
           </div>
-        ))}
-      </div>
-      <div>
-        <label htmlFor="challenge"><Localized id="cbt-challenge" /></label>
-        <div>
-          <Localized id="cbt-challenge-body" attrs={{placeholder: true}}>
-            <textarea id="challenge" value={challenge} onChange={(event) => setChallenge(event.target.value)} style={{width: '100%', maxWidth: '80em', height: '10em'}} />
-          </Localized>
-        </div>
-      </div>
-      <div>
-        <label htmlFor="alternative"><Localized id="cbt-alternative" /></label>
-        <div>
-          <Localized id="cbt-alternative-body" attrs={{placeholder: true}}>
-            <textarea id="alternative" value={alternative} onChange={(event) => setAlternative(event.target.value)} style={{width: '100%', maxWidth: '80em', height: '10em'}} />
-          </Localized>
-        </div>
-      </div>
+        </li>
+        <li>
+          <label><Localized id="cbt-distortions" /></label>
+          {Model.distortions.map(distortion => (
+            <div key={distortion}>
+              <label htmlFor={`distortion-${distortion}`}>
+                <div>
+                  <input type="checkbox" id={`distortion-${distortion}`} checked={distortions.has(distortion)} onChange={onDistortionChecked(distortion)} />
+                  {cbtIcon({distortion: distortion})}
+                  <Localized id={`cbt-distortion-${distortion}`} />
+                </div>
+                <div><i><Localized id={`cbt-distortion-example-${distortion}`} /></i></div>
+              </label>
+            </div>
+          ))}
+        </li>
+        <li>
+          <label htmlFor="challenge"><Localized id="cbt-challenge" /></label>
+          <div>
+            <Localized id="cbt-challenge-body" attrs={{placeholder: true}}>
+              <textarea id="challenge" value={challenge} onChange={(event) => setChallenge(event.target.value)} style={{width: '100%', maxWidth: '80em', height: '10em'}} />
+            </Localized>
+          </div>
+        </li>
+        <li>
+          <label htmlFor="alternative"><Localized id="cbt-alternative" /></label>
+          <div>
+            <Localized id="cbt-alternative-body" attrs={{placeholder: true}}>
+              <textarea id="alternative" value={alternative} onChange={(event) => setAlternative(event.target.value)} style={{width: '100%', maxWidth: '80em', height: '10em'}} />
+            </Localized>
+          </div>
+        </li>
+      </ul>
       <button type="submit"><Localized id="submit" /></button>
     </form>
   )
