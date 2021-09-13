@@ -1,6 +1,7 @@
 import React from 'react'
 import * as Model from '../../Model'
 import * as DBMemory from '../../DB/Memory'
+import * as DBUserbase from '../../DB/Userbase'
 import Dexie from 'dexie'
 import * as Router from 'react-router-dom'
 import Form from '../../View/Form'
@@ -33,5 +34,11 @@ export function MemoryComponent({state, dispatch}: {state: DBMemory.State, dispa
   return <Page dispatch={dispatch} />
 }
 export function DexieComponent({db, dispatch}: {db: Dexie, dispatch: Model.Dispatch}) {
+  return <Page dispatch={dispatch} />
+}
+export function UserbaseComponent({entries, dispatch}: {entries: Array<DBUserbase.Entry>, dispatch: Model.Dispatch}) {
+  if (!React.useContext(DBUserbase.Context).user) {
+    return <Router.Redirect to="/userbase" />
+  }
   return <Page dispatch={dispatch} />
 }

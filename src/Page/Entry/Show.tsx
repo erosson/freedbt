@@ -1,6 +1,7 @@
 import React from 'react'
 import * as Model from '../../Model'
 import * as DBMemory from '../../DB/Memory'
+import * as DBUserbase from '../../DB/Userbase'
 import * as PageNotFound from '../NotFound'
 import Dexie from 'dexie'
 import {useLiveQuery} from 'dexie-react-hooks'
@@ -70,4 +71,14 @@ export function DexieComponent({db, dispatch}: {db: Dexie, dispatch: Model.Dispa
     case 'loading':
       return <Loading phase="page.show" />
   }
+}
+export function UserbaseComponent({entries, dispatch}: {entries: Array<DBUserbase.Entry>, dispatch: Model.Dispatch}) {
+  const params = Router.useParams<{id: string}>()
+  if (!React.useContext(DBUserbase.Context).user) {
+    return <Router.Redirect to="/userbase" />
+  }
+  const entry = entries.find(e => e.itemId === params.id)
+  return entry
+    ? <Page dispatch={dispatch} id={params.id} entry={DBUserbase.toEntry(entry)} />
+    : <PageNotFound.UserbaseComponent entries={entries} dispatch={dispatch} />
 }

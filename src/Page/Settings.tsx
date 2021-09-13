@@ -1,7 +1,9 @@
 import React from 'react'
 import * as Model from '../Model'
 import * as DBMemory from '../DB/Memory'
+import * as DBUserbase from '../DB/Userbase'
 import * as Util from '../Util'
+import * as Router from 'react-router-dom'
 import Dexie from 'dexie'
 import { Localized, useLocalization } from '@fluent/react';
 import Layout from '../View/Layout'
@@ -13,7 +15,7 @@ function Page(p: {dispatch: Model.Dispatch}) {
   if (!settings) {
     return <Loading phase="page.settings" />
   }
-  
+
   const onSetDarkMode = (event: React.ChangeEvent<HTMLSelectElement>) => {
     event.preventDefault()
     if (Model.isDarkMode(event.target.value)) {
@@ -50,5 +52,11 @@ export function MemoryComponent({state, dispatch}: {state: DBMemory.State, dispa
   return <Page dispatch={dispatch} />
 }
 export function DexieComponent({db, dispatch}: {db: Dexie, dispatch: Model.Dispatch}) {
+  return <Page dispatch={dispatch} />
+}
+export function UserbaseComponent({entries, dispatch}: {entries: Array<DBUserbase.Entry>, dispatch: Model.Dispatch}) {
+  if (!React.useContext(DBUserbase.Context).user) {
+    return <Router.Redirect to="/userbase" />
+  }
   return <Page dispatch={dispatch} />
 }

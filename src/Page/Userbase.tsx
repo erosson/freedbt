@@ -84,4 +84,7 @@ export function MemoryComponent({state, dispatch}: {state: DBMemory.State, dispa
 export function DexieComponent({db, dispatch}: {db: Dexie, dispatch: Model.Dispatch}) {
   return <Page dispatch={dispatch} />
 }
+export function UserbaseComponent({entries, dispatch}: {entries: Array<DBUserbase.Entry>, dispatch: Model.Dispatch}) {
+  return <Page dispatch={dispatch} />
+}
 export default Page

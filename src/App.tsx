@@ -34,9 +34,7 @@ export function App() {
     return (
       <Router basename="/db/userbase">
         <AppRoutes>
-          <DBUserbase>
-            <DBDexie routes={Routes.routes} />
-          </DBUserbase>
+          <DBUserbase routes={Routes.routes} />
           db-userbase
         </AppRoutes>
       </Router>

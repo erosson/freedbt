@@ -3,10 +3,9 @@ import * as Model from './Model'
 import * as DBUserbase from './DB/Userbase'
 
 export const UserbaseContext = DBUserbase.Context
-export const UserbaseUpdateContext = DBUserbase.UpdateContext
 export const SettingsContext = React.createContext<Model.Settings | null>(null)
 
-export function useSideEffect<A>(effect: (a:A) => null): ((a:A) => void) {
+export function useSideEffect<A>(effect: (a:A) => null | Promise<null>): ((a:A) => void) {
   type Action
     = {type: 'wrap', wrapped: A}
     | {type: 'noop'}
@@ -21,7 +20,8 @@ export function useSideEffect<A>(effect: (a:A) => null): ((a:A) => void) {
           return null
         case 'wrap':
           dispatch({type: 'noop'})
-          return effect(action.wrapped)
+          effect(action.wrapped)
+          return null
       }
     })()
   }, [effect, action])

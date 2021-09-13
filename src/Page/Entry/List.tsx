@@ -1,8 +1,9 @@
 import React from 'react'
 import * as Model from '../../Model'
 import * as DBMemory from '../../DB/Memory'
+import * as DBUserbase from '../../DB/Userbase'
 import Dexie from 'dexie'
-import {Link} from 'react-router-dom'
+import {Link, Redirect} from 'react-router-dom'
 import {useLiveQuery} from 'dexie-react-hooks'
 import { Localized } from '@fluent/react';
 import Layout from '../../View/Layout'
@@ -10,9 +11,9 @@ import Loading from '../../View/Loading'
 
 type State
   = {ready: false}
-  | {ready: true, entries: Array<[number, Model.Entry]>}
+  | {ready: true, entries: Array<[string, Model.Entry]>}
 
-function Page(p: {dispatch: Model.Dispatch, entries: Array<[number, Model.Entry]>}) {
+function Page(p: {dispatch: Model.Dispatch, entries: Array<[string, Model.Entry]>}) {
   return (
     <Layout>
       <p><Link to={`/entries/create/journal`}><Localized id="create-journal" /></Link></p>
@@ -55,18 +56,24 @@ function DBTEmotionRegulation5Entry(p: {entry: Model.DBTEmotionRegulation5Entry}
 }
 
 export function MemoryComponent({state, dispatch}: {state: DBMemory.State, dispatch: Model.Dispatch}) {
-  return <Page dispatch={dispatch} entries={state.entries.map((item, key) => [key, item])} />
+  return <Page dispatch={dispatch} entries={state.entries.map((item, key) => [key+'', item])} />
 }
 export function DexieComponent({db, dispatch}: {db: Dexie, dispatch: Model.Dispatch}) {
   const state: State = useLiveQuery<State, {ready: false}>(async () => {
     let coll = await db.table('entries').orderBy('createdAt')
     let keys = await coll.primaryKeys()
     let vals: Model.Entry[] = await coll.toArray()
-    let entries: Array<[number, Model.Entry]> = keys.map((k, i) => [k as number, vals[i]])
+    let entries: Array<[string, Model.Entry]> = keys.map((k, i) => [k as string, vals[i]])
     return {ready: true, entries}
   }, [], {ready: false})
 
   return state.ready
     ? <Page dispatch={dispatch} entries={state.entries} />
     : <Loading phase="page.list" />
+}
+export function UserbaseComponent({entries, dispatch}: {entries: Array<DBUserbase.Entry>, dispatch: Model.Dispatch}) {
+  if (!React.useContext(DBUserbase.Context).user) {
+    return <Redirect to="/userbase" />
+  }
+  return <Page dispatch={dispatch} entries={entries.map(e => [e.itemId, DBUserbase.toEntry(e)])} />
 }
