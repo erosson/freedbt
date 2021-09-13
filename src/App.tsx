@@ -30,6 +30,18 @@ export function App() {
       </Router>
     )
   }
+  else if (document.location.pathname.startsWith('/db/userbase')) {
+    return (
+      <Router basename="/db/userbase">
+        <AppRoutes>
+          <DBUserbase>
+            <DBDexie routes={Routes.routes} />
+          </DBUserbase>
+          db-userbase
+        </AppRoutes>
+      </Router>
+    )
+  }
   return (
     <Router>
       <AppRoutes />
@@ -40,9 +52,7 @@ export function AppRoutes(p: {children?: React.ReactNode}) {
   return (
     <LocalizationProvider l10n={l10n}>
       {p.children ? <>{p.children}</> :
-        <DBUserbase>
-          <DBDexie routes={Routes.routes} />
-        </DBUserbase>
+        <DBDexie routes={Routes.routes} />
       }
     </LocalizationProvider>
   )
