@@ -3,7 +3,6 @@ import * as Model from '../Model'
 import * as DBMemory from '../DB/Memory'
 import * as DBUserbase from '../DB/Userbase'
 import * as Util from '../Util'
-import * as Router from 'react-router-dom'
 import Dexie from 'dexie'
 import { Localized, useLocalization } from '@fluent/react';
 import Layout from '../View/Layout'
@@ -55,8 +54,9 @@ export function DexieComponent({db, dispatch}: {db: Dexie, dispatch: Model.Dispa
   return <Page dispatch={dispatch} />
 }
 export function UserbaseComponent({entries, dispatch}: {entries: Array<DBUserbase.Entry>, dispatch: Model.Dispatch}) {
-  if (!React.useContext(DBUserbase.Context).user) {
-    return <Router.Redirect to="/userbase" />
-  }
-  return <Page dispatch={dispatch} />
+  return (
+    <DBUserbase.Wall loading="page.settings" loggedOut={true}>
+      <Page dispatch={dispatch} />
+    </DBUserbase.Wall>
+  )
 }

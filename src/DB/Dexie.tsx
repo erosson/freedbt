@@ -37,33 +37,34 @@ function DexieSettings(p: {db: Dexie, children: React.ReactNode}) {
   )
 }
 
-function Dexie_({routes}: {routes: Array<RouteSpec>}) {
-  const db = React.useRef(initDatabase()).current
+export function update(db: Dexie, action: Model.Action): null {
+  switch (action.type) {
+    case 'reset':
+      db.table('entries').clear()
+      db.table('settings').clear()
+      return null
+    case 'settings.update':
+      db.table('settings').put(action.value, 1)
+      return null
+    case 'entry.create':
+      db.table('entries').put(action.data)
+      return null
+    case 'entry.update':
+      db.table('entries').update(action.id, action.data)
+      return null
+    case 'entry.delete':
+      db.table('entries').delete(action.id)
+      return null
+    case 'auth.register':
+    case 'auth.login':
+    case 'auth.logout':
+      return null
+  }
+}
 
-  const dispatch = Util.useSideEffect((action: Model.Action): null => {
-    switch (action.type) {
-      case 'reset':
-        db.table('entries').clear()
-        db.table('settings').clear()
-        return null
-      case 'settings.update':
-        db.table('settings').put(action.value, 1)
-        return null
-      case 'entry.create':
-        db.table('entries').put(action.data)
-        return null
-      case 'entry.update':
-        db.table('entries').update(action.id, action.data)
-        return null
-      case 'entry.delete':
-        db.table('entries').delete(action.id)
-        return null
-      case 'auth.register':
-      case 'auth.login':
-      case 'auth.logout':
-        return null
-    }
-  })
+function Dexie_({routes}: {routes: Array<RouteSpec>}) {
+  const db = React.useRef<Dexie>(initDatabase()).current
+  const dispatch = Util.useSideEffect<Model.Action>(a => update(db, a))
   return (
     <DexieSettings db={db}>
       <Router.Switch>

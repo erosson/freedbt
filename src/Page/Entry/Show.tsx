@@ -74,11 +74,13 @@ export function DexieComponent({db, dispatch}: {db: Dexie, dispatch: Model.Dispa
 }
 export function UserbaseComponent({entries, dispatch}: {entries: Array<DBUserbase.Entry>, dispatch: Model.Dispatch}) {
   const params = Router.useParams<{id: string}>()
-  if (!React.useContext(DBUserbase.Context).user) {
-    return <Router.Redirect to="/userbase" />
-  }
   const entry = entries.find(e => e.itemId === params.id)
-  return entry
-    ? <Page dispatch={dispatch} id={params.id} entry={DBUserbase.toEntry(entry)} />
-    : <PageNotFound.UserbaseComponent entries={entries} dispatch={dispatch} />
+  return (
+    <DBUserbase.Wall loading="page.show" loggedOut={true}>
+      {entry
+        ? <Page dispatch={dispatch} id={params.id} entry={DBUserbase.toEntry(entry)} />
+        : <PageNotFound.UserbaseComponent entries={entries} dispatch={dispatch} />
+      }
+    </DBUserbase.Wall>
+  )
 }

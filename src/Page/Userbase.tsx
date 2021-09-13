@@ -24,7 +24,7 @@ function Register(p: {dispatch: Model.Dispatch}) {
         <input id="signup-password" autoComplete="new-password" type="password" required placeholder="Password" value={password} onChange={event => setPassword(event.target.value)} />
         <input type="submit" value="Create an account" />
       </form>
-      <div id="signup-error">{session.error || ''}</div>
+      {session.status === 'error' ? <div id="signup-error">{session.error}</div> : null}
     </div>
   )
 }
@@ -45,7 +45,7 @@ function Login(p: {dispatch: Model.Dispatch}) {
         <input id="login-password" autoComplete="current-password" type="password" required placeholder="Password" value={password} onChange={event => setPassword(event.target.value)} />
         <input type="submit" value="Login" />
       </form>
-      <div id="signup-error">{session.error || ''}</div>
+      {session.status === 'error' ? <div id="signup-error">{session.error}</div> : null}
     </div>
   )
 }
@@ -58,7 +58,7 @@ function Logout(p: {dispatch: Model.Dispatch}) {
 }
 export function Page(p: {dispatch: Model.Dispatch}) {
   const session = React.useContext<DBUserbase.Session>(DBUserbase.Context)
-  const body = session.user
+  const body = session.status === 'ready'
     ? (
       <div>
         <p>Welcome, {session.user.username}</p>
@@ -85,6 +85,10 @@ export function DexieComponent({db, dispatch}: {db: Dexie, dispatch: Model.Dispa
   return <Page dispatch={dispatch} />
 }
 export function UserbaseComponent({entries, dispatch}: {entries: Array<DBUserbase.Entry>, dispatch: Model.Dispatch}) {
-  return <Page dispatch={dispatch} />
+  return (
+    <DBUserbase.Wall loading="page.userbase" loggedOut={false}>
+      <Page dispatch={dispatch} />
+    </DBUserbase.Wall>
+  )
 }
 export default Page

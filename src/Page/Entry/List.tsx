@@ -3,7 +3,7 @@ import * as Model from '../../Model'
 import * as DBMemory from '../../DB/Memory'
 import * as DBUserbase from '../../DB/Userbase'
 import Dexie from 'dexie'
-import {Link, Redirect} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import {useLiveQuery} from 'dexie-react-hooks'
 import { Localized } from '@fluent/react';
 import Layout from '../../View/Layout'
@@ -72,8 +72,9 @@ export function DexieComponent({db, dispatch}: {db: Dexie, dispatch: Model.Dispa
     : <Loading phase="page.list" />
 }
 export function UserbaseComponent({entries, dispatch}: {entries: Array<DBUserbase.Entry>, dispatch: Model.Dispatch}) {
-  if (!React.useContext(DBUserbase.Context).user) {
-    return <Redirect to="/userbase" />
-  }
-  return <Page dispatch={dispatch} entries={entries.map(e => [e.itemId, DBUserbase.toEntry(e)])} />
+  return (
+    <DBUserbase.Wall loading="page.list" loggedOut={true}>
+      <Page dispatch={dispatch} entries={entries.map(e => [e.itemId, DBUserbase.toEntry(e)])} />
+    </DBUserbase.Wall>
+  )
 }

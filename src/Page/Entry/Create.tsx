@@ -37,8 +37,9 @@ export function DexieComponent({db, dispatch}: {db: Dexie, dispatch: Model.Dispa
   return <Page dispatch={dispatch} />
 }
 export function UserbaseComponent({entries, dispatch}: {entries: Array<DBUserbase.Entry>, dispatch: Model.Dispatch}) {
-  if (!React.useContext(DBUserbase.Context).user) {
-    return <Router.Redirect to="/userbase" />
-  }
-  return <Page dispatch={dispatch} />
+  return (
+    <DBUserbase.Wall loading="page.create" loggedOut={true}>
+      <Page dispatch={dispatch} />
+    </DBUserbase.Wall>
+  )
 }
