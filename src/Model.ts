@@ -51,6 +51,7 @@ export const distortions: Array<Distortion> = [
 ]
 
 export type Settings = {
+  updatedAt: Date,
   darkMode: DarkMode,
 }
 export type DarkMode = 'default' | 'light' | 'dark'
@@ -61,7 +62,10 @@ export function isDarkMode(t: string): t is DarkMode {
     || t === 'light'
   )
 }
-export const initSettings: Settings = {darkMode: 'default'}
+export const initSettings: () => Settings = () => ({
+  updatedAt: new Date(),
+  darkMode: 'default',
+})
 
 export type Action
   = {type: 'reset'}

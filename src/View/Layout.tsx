@@ -5,7 +5,8 @@ import * as Model from '../Model'
 import * as Util from '../Util'
 
 function Layout(p: {children: React.ReactNode}) {
-  const settings = React.useContext(Util.SettingsContext) || Model.initSettings
+  const settings = React.useContext<Model.Settings | null>(Util.SettingsContext) || Model.initSettings()
+  console.log('settings', settings)
   const isDarkDefault = window.matchMedia('(prefers-color-scheme: dark)').matches
   const isDark = settings.darkMode === 'dark' || (settings.darkMode === 'default' && isDarkDefault)
   // in tailwind, `class="dark"` affects all child elements.

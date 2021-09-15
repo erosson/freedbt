@@ -10,7 +10,7 @@ export type Action = Model.Action
 
 function reset(obj: State): void {
   obj.entries = []
-  obj.settings = Object.assign({}, Model.initSettings)
+  obj.settings = Model.initSettings()
 }
 function reducer(state0: State, action: Action): State {
   console.log('reducer', action)
@@ -21,6 +21,7 @@ function reducer(state0: State, action: Action): State {
         return
       case 'settings.update':
         state.settings = action.value
+        state.settings.updatedAt = new Date()
         return
       case 'entry.create':
         state.entries.push(action.data)
@@ -42,7 +43,7 @@ function reducer(state0: State, action: Action): State {
 
 function Memory({routes}: {routes: Array<RouteSpec>}) {
   const [state, dispatch]: [State, (a:Action) => void]
-    = React.useReducer(reducer, Automerge.from({entries: [], settings: Model.initSettings}))
+    = React.useReducer(reducer, Automerge.from({entries: [], settings: Model.initSettings()}))
   React.useEffect(() => {
     dispatch({type: 'reset'})
   }, [])

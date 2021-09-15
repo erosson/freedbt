@@ -1,10 +1,11 @@
 import React from 'react'
-import Loading from '../View/Loading'
-import * as Router from 'react-router-dom'
-import * as Model from '../Model'
 import Userbase from 'userbase-js'
-import {RouteSpec} from '../Routes'
 import * as U from 'userbase-js/types'
+import * as Router from 'react-router-dom'
+
+import Loading from '../View/Loading'
+import * as Model from '../Model'
+import {RouteSpec} from '../Routes'
 import * as Util from '../Util'
 
 export type Session
@@ -88,10 +89,10 @@ export async function update(setSession: (s:Session) => void, action: Model.Acti
       return null
     case 'settings.update':
       try {
-        await Userbase.updateItem({databaseName: 'settings', itemId: '1', item: action.value})
+        await Userbase.updateItem({databaseName: 'settings', itemId: '1', item: {...action.value, updatedAt: new Date()}})
       }
       catch (e) {
-        await Userbase.insertItem({databaseName: 'settings', itemId: '1', item: action.value})
+        await Userbase.insertItem({databaseName: 'settings', itemId: '1', item: {...action.value, updatedAt: new Date()}})
       }
       return null
     case 'entry.create':

@@ -9,19 +9,23 @@ import {RouteSpec} from '../Routes'
 import {useLiveQuery} from 'dexie-react-hooks'
 import Loading from '../View/Loading'
 
-function initDatabase(): Dexie {
+export function initDatabase(name?: string): Dexie {
   // Dexie.delete('test')
   // Dexie.delete('test3')
   // Dexie.delete('test4')
-  const db = new Dexie('FreeDBT')
+  const db = new Dexie(name || 'FreeDBT')
   db.version(1).stores({
     entries: '$$,type,createdAt,updatedAt',
     settings: '',
   })
+  db.version(2).stores({
+    // TODO get sync working properly and delete this. it was for the fatally flawed OfflineFirstDexieUserbase
+    pendingCommands: '++,createdAt',
+  })
   return db
 }
 
-function DexieSettings(p: {db: Dexie, children: React.ReactNode}) {
+export function DexieSettings(p: {db: Dexie, children: React.ReactNode}) {
   const settings: null | Model.Settings = useLiveQuery<Model.Settings, null>(async () => {
     return (await p.db.table('settings').toCollection().first()) || Model.initSettings
   }, [], null)
@@ -37,23 +41,23 @@ function DexieSettings(p: {db: Dexie, children: React.ReactNode}) {
   )
 }
 
-export function update(db: Dexie, action: Model.Action): null {
+export async function update({dexie, setDexie, action}: {dexie: Dexie, setDexie: (d:Dexie) => void, action: Model.Action}): Promise<null> {
   switch (action.type) {
     case 'reset':
-      db.table('entries').clear()
-      db.table('settings').clear()
+      Dexie.delete(dexie.name)
+      setDexie(initDatabase(dexie.name))
       return null
     case 'settings.update':
-      db.table('settings').put(action.value, 1)
+      await dexie.table('settings').put({...action.value, updatedAt: new Date()}, 1)
       return null
     case 'entry.create':
-      db.table('entries').put(action.data)
+      await dexie.table('entries').put(action.data)
       return null
     case 'entry.update':
-      db.table('entries').update(action.id, action.data)
+      await dexie.table('entries').update(action.id, action.data)
       return null
     case 'entry.delete':
-      db.table('entries').delete(action.id)
+      await dexie.table('entries').delete(action.id)
       return null
     case 'auth.register':
     case 'auth.login':
@@ -63,14 +67,14 @@ export function update(db: Dexie, action: Model.Action): null {
 }
 
 function Dexie_({routes}: {routes: Array<RouteSpec>}) {
-  const db = React.useRef<Dexie>(initDatabase()).current
-  const dispatch = Util.useSideEffect<Model.Action>(a => update(db, a))
+  const [dexie, setDexie] = React.useState<Dexie>(initDatabase())
+  const dispatch = Util.useSideEffect<Model.Action>(action => update({dexie, setDexie, action}))
   return (
-    <DexieSettings db={db}>
+    <DexieSettings db={dexie}>
       <Router.Switch>
         {routes.map((route, index) => (
           <Router.Route key={index} exact={route.exact} path={route.path}>
-            <route.component.DexieComponent db={db} dispatch={dispatch} />
+            <route.component.DexieComponent db={dexie} dispatch={dispatch} />
           </Router.Route>
         ))}
       </Router.Switch>

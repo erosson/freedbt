@@ -7,6 +7,7 @@ import DBAutomerge from './DB/Automerge'
 import DBMemory from './DB/Memory'
 import DBDexie from './DB/Dexie'
 import DBUserbase from './DB/Userbase'
+import DBOfflineFirstDexieUserbase from './DB/OfflineFirstDexieUserbase'
 import * as Routes from './Routes'
 
 export function App() {
@@ -36,6 +37,26 @@ export function App() {
         <AppRoutes>
           <DBUserbase routes={Routes.routes} />
           db-userbase
+        </AppRoutes>
+      </Router>
+    )
+  }
+  else if (document.location.pathname.startsWith('/db/dexie')) {
+    return (
+      <Router basename="/db/dexie">
+        <AppRoutes>
+          <DBDexie routes={Routes.routes} />
+          db-dexie
+        </AppRoutes>
+      </Router>
+    )
+  }
+  else if (document.location.pathname.startsWith('/db/offlinefirstdexieuserbase')) {
+    return (
+      <Router basename="/db/offlinefirstdexieuserbase">
+        <AppRoutes>
+          <DBOfflineFirstDexieUserbase routes={Routes.routes} />
+          db-offlinefirstdexieuserbase
         </AppRoutes>
       </Router>
     )

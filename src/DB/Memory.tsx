@@ -6,7 +6,7 @@ import {RouteSpec} from '../Routes'
 
 export type State = {entries: Array<Model.Entry>, settings: Model.Settings}
 export type Action = Model.Action
-const initState = {entries: [], settings: Model.initSettings}
+const initState = {entries: [], settings: Model.initSettings()}
 
 function reducer(state: State, action: Action): State {
   console.log('reducer', action)
@@ -14,7 +14,7 @@ function reducer(state: State, action: Action): State {
     case 'reset':
       return initState
     case 'settings.update':
-      return {...state, settings: action.value}
+      return {...state, settings: {...action.value, updatedAt: new Date()}}
     case 'entry.create':
       return {...state, entries: [action.data, ...state.entries]}
     case 'entry.update':
