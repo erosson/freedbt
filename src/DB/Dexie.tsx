@@ -27,7 +27,7 @@ export function initDatabase(name?: string): Dexie {
 
 export function DexieSettings(p: {db: Dexie, children: React.ReactNode}) {
   const settings: null | Model.Settings = useLiveQuery<Model.Settings, null>(async () => {
-    return (await p.db.table('settings').toCollection().first()) || Model.initSettings
+    return (await p.db.table('settings').toCollection().first()) || Model.initSettings()
   }, [], null)
 
   if (!settings) {

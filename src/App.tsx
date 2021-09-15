@@ -8,6 +8,7 @@ import DBMemory from './DB/Memory'
 import DBDexie from './DB/Dexie'
 import DBUserbase from './DB/Userbase'
 import DBOfflineFirstDexieUserbase from './DB/OfflineFirstDexieUserbase'
+import DBOfflineFirstDexieUserbase2 from './DB/OfflineFirstDexieUserbase2'
 import * as Routes from './Routes'
 
 export function App() {
@@ -61,6 +62,16 @@ export function App() {
       </Router>
     )
   }
+  else if (document.location.pathname.startsWith('/db/offlinefirstdexieuserbase2')) {
+    return (
+      <Router basename="/db/offlinefirstdexieuserbase2">
+        <AppRoutes>
+          <DBOfflineFirstDexieUserbase2 routes={Routes.routes} />
+          db-offlinefirstdexieuserbase2
+        </AppRoutes>
+      </Router>
+    )
+  }
   return (
     <Router>
       <AppRoutes />
@@ -68,6 +79,7 @@ export function App() {
   )
 }
 export function AppRoutes(p: {children?: React.ReactNode}) {
+        // <DBDexie routes={Routes.routes} />
   return (
     <LocalizationProvider l10n={l10n}>
       {p.children ? <>{p.children}</> :
