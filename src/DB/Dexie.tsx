@@ -3,11 +3,13 @@ import Dexie from 'dexie'
 import 'dexie-observable'
 import 'dexie-syncable' // required for uuid primary keys (`$$`)
 import * as Router from 'react-router-dom'
+import * as RemoteData from '@abraham/remotedata'
+
 import * as Model from '../Model'
 import * as Util from '../Util'
-import {RouteSpec} from '../Routes'
-import {useLiveQuery} from 'dexie-react-hooks'
+import { RouteSpec } from '../Routes'
 import Loading from '../View/Loading'
+import Fatal from '../View/Fatal'
 
 export function initDatabase(name?: string): Dexie {
   // Dexie.delete('test')
@@ -25,36 +27,38 @@ export function initDatabase(name?: string): Dexie {
   return db
 }
 
-export function DexieSettings(p: {db: Dexie, children: React.ReactNode}) {
-  const settings: null | Model.Settings = useLiveQuery<Model.Settings, null>(async () => {
-    return (await p.db.table('settings').toCollection().first()) || Model.initSettings()
-  }, [], null)
+export function DexieSettings(p: { db: Dexie, children: React.ReactNode }) {
+  const settings: RemoteData.RemoteData<unknown, Model.Settings> = Util.decodeLiveQuery(Model.SettingsCodec.Dexie, async () => {
+    return await p.db.table('settings').toCollection().first() || Model.initSettings()
+  }, [])
+  console.log('settings', settings)
 
-  if (!settings) {
-    return <Loading phase="dexie.settings" />
-  }
-
-  return (
-    <Util.SettingsContext.Provider value={settings}>
-      {p.children}
-    </Util.SettingsContext.Provider>
-  )
+  return RemoteData.fold(
+    () => <Loading phase="dexie.settings.init" />,
+    () => <Loading phase="dexie.settings" />,
+    (error: unknown) => <Fatal message={['Problem decoding settings', error + '']} />,
+    (value: Model.Settings) => (
+      <Util.SettingsContext.Provider value={value}>
+        {p.children}
+      </Util.SettingsContext.Provider>
+    ),
+  )(settings)
 }
 
-export async function update({dexie, setDexie, action}: {dexie: Dexie, setDexie: (d:Dexie) => void, action: Model.Action}): Promise<null> {
+export async function update({ dexie, setDexie, action }: { dexie: Dexie, setDexie: (d: Dexie) => void, action: Model.Action }): Promise<null> {
   switch (action.type) {
     case 'reset':
       Dexie.delete(dexie.name)
       setDexie(initDatabase(dexie.name))
       return null
     case 'settings.update':
-      await dexie.table('settings').put({...action.value, updatedAt: new Date()}, 1)
+      await dexie.table('settings').put(Model.SettingsCodec.Dexie.encode({ ...action.value, updatedAt: new Date() }), 1)
       return null
     case 'entry.create':
-      await dexie.table('entries').put(action.data)
+      await dexie.table('entries').put(Model.EntryCodec.Dexie.encode(action.data))
       return null
     case 'entry.update':
-      await dexie.table('entries').update(action.id, action.data)
+      await dexie.table('entries').update(action.id, Model.EntryCodec.Dexie.encode(action.data))
       return null
     case 'entry.delete':
       await dexie.table('entries').delete(action.id)
@@ -66,9 +70,9 @@ export async function update({dexie, setDexie, action}: {dexie: Dexie, setDexie:
   }
 }
 
-function Dexie_({routes}: {routes: Array<RouteSpec>}) {
+function Dexie_({ routes }: { routes: Array<RouteSpec> }) {
   const [dexie, setDexie] = React.useState<Dexie>(initDatabase())
-  const dispatch = Util.useSideEffect<Model.Action>(action => update({dexie, setDexie, action}))
+  const dispatch = Util.useSideEffect<Model.Action>(action => update({ dexie, setDexie, action }))
   return (
     <DexieSettings db={dexie}>
       <Router.Switch>

@@ -1,10 +1,10 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Localized } from '@fluent/react';
 import * as Model from '../Model'
 import * as Util from '../Util'
 
-function Layout(p: {children: React.ReactNode}) {
+function Layout(p: { children: React.ReactNode }) {
   const settings: Model.Settings = React.useContext<Model.Settings | null>(Util.SettingsContext) || Model.initSettings()
   const isDarkDefault = window.matchMedia('(prefers-color-scheme: dark)').matches
   const isDark = settings.darkMode === 'dark' || (settings.darkMode === 'default' && isDarkDefault)

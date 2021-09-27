@@ -21,6 +21,7 @@ async function pushPendingCommands(p: {dexie: Dexie, session: DBUserbase.Session
       await p.dexie.table('pendingCommands').delete(cursor.primaryKey)
       // TODO handle failed pending-command-delete differently?
       console.log('pendingCommands: pushed', pending)
+      return null
     }
     catch (e) {
       // TODO count failures, and skip commands that fail too much?

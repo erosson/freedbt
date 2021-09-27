@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@abraham/remotedata": "^0.8.0",
     "@craco/craco": "^6.2.0",
     "@fluent/bundle": "^0.16.1",
     "@fluent/langneg": "^0.5.2",
@@ -22,6 +23,7 @@
     "dexie-syncable": "^3.0.0-beta.10",
     "intl-pluralrules": "^1.3.0",
     "intl-polyfill": "^0.0.3",
+    "purify-ts": "^1.0.0",
     "raw-loader": "^4.0.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

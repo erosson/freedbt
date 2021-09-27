@@ -10,7 +10,7 @@ function JournalForm(p: {entry?: Entry, onSubmit: (e:Entry) => void}) {
     event.preventDefault()
     const updatedAt = new Date()
     const entry: Entry = {
-      type: 'journal',
+      type: Model.EntryType.JOURNAL,
       createdAt: p.entry?.createdAt || updatedAt,
       updatedAt,
       body,

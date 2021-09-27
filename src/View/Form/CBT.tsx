@@ -21,7 +21,7 @@ function CBTForm(p: {entry?: Entry, onSubmit: (e:Entry) => void}) {
     event.preventDefault()
     const updatedAt = new Date()
     const entry: Entry = {
-      type: 'cbt',
+      type: Model.EntryType.CBT,
       createdAt: p.entry?.createdAt || updatedAt,
       updatedAt,
       problem,
@@ -44,12 +44,12 @@ function CBTForm(p: {entry?: Entry, onSubmit: (e:Entry) => void}) {
         </li>
         <li>
           <label><Localized id="cbt-distortions" /></label>
-          {Model.distortions.map(distortion => (
+          {Object.values(Model.Distortion).map(distortion => (
             <div key={distortion}>
               <label htmlFor={`distortion-${distortion}`}>
                 <div>
                   <input type="checkbox" id={`distortion-${distortion}`} checked={distortions.has(distortion)} onChange={onDistortionChecked(distortion)} />
-                  {cbtIcon({distortion: distortion})}
+                  {cbtIcon(distortion)}
                   <Localized id={`cbt-distortion-${distortion}`} />
                 </div>
                 <div><i><Localized id={`cbt-distortion-example-${distortion}`} /></i></div>
@@ -78,20 +78,21 @@ function CBTForm(p: {entry?: Entry, onSubmit: (e:Entry) => void}) {
     </form>
   )
 }
-function cbtIcon(p: {distortion: Model.Distortion}):string {
-  switch (p.distortion) {
-    case 'all-or-nothing': return '🌓'
-    case 'catastrophizing': return '🤯'
-    case 'emotional-reasoning': return '🎭'
-    case 'fortune-telling': return '🔮'
-    case 'labeling': return '🏷'
-    case 'magnification-of-the-negative': return '👎'
-    case 'mind-reading': return '🧠'
-    case 'minimization-of-the-positive': return '👍'
-    case 'other-blaming': return '🧛'
-    case 'overgeneralization': return '👯'
-    case 'self-blaming': return '👁'
-    case 'should-statements': return '✨'
+
+function cbtIcon(distortion: Model.Distortion):string {
+  switch (distortion) {
+    case Model.Distortion.ALL_OR_NOTHING: return '🌓'
+    case Model.Distortion.CATASTROPHIZING: return '🤯'
+    case Model.Distortion.EMOTIONAL_REASONING: return '🎭'
+    case Model.Distortion.FORTUNE_TELLING: return '🔮'
+    case Model.Distortion.LABELING: return '🏷'
+    case Model.Distortion.MAGNIFICATION_OF_THE_NEGATIVE: return '👎'
+    case Model.Distortion.MIND_READING: return '🧠'
+    case Model.Distortion.MINIMIZATION_OF_THE_POSITIVE: return '👍'
+    case Model.Distortion.OTHER_BLAMING: return '🧛'
+    case Model.Distortion.OVERGENERALIZATION: return '👯'
+    case Model.Distortion.SELF_BLAMING: return '👁'
+    case Model.Distortion.SHOULD_STATEMENTS: return '✨'
   }
 }
 export default CBTForm

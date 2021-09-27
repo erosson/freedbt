@@ -17,9 +17,12 @@ function Page(p: {dispatch: Model.Dispatch}) {
 
   const onSetDarkMode = (event: React.ChangeEvent<HTMLSelectElement>) => {
     event.preventDefault()
-    if (Model.isDarkMode(event.target.value)) {
-      p.dispatch({type: 'settings.update', value: {...settings, darkMode: event.target.value}})
-    }
+    Model.DarkModeCodec
+    .decode(event.target.value)
+    .ifRight((darkMode: Model.DarkMode) => {
+      p.dispatch({type: 'settings.update', value: {...settings, darkMode}})
+    })
+    // discard impossible non-DarkMode values
   }
   const onEraseJournal = (event: React.SyntheticEvent) => {
     event.preventDefault()
@@ -33,7 +36,7 @@ function Page(p: {dispatch: Model.Dispatch}) {
         <label htmlFor="darkmode">
           <Localized id="settings-darkmode-label" />
           <select value={settings.darkMode} onChange={onSetDarkMode}>
-          {['default', 'light', 'dark'].map(value => (
+          {Object.values(Model.DarkMode).map(value => (
             // <Localized> doesn't seem to work in an <option>
             <option key={value} value={value}>{locale.getString(`settings-darkmode-${value}`)}</option>
           ))}

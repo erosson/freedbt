@@ -29,7 +29,7 @@ function DBTForm(p: {entry?: Entry, onSubmit: (e:Entry) => void}) {
     event.preventDefault()
     const updatedAt = new Date()
     const entry: Entry = {
-      type: 'dbt-emotion-regulation-5',
+      type: Model.EntryType.DBT_EMOTION_REGULATION_5,
       createdAt: p.entry?.createdAt || updatedAt,
       updatedAt,
       emotion: {name: emotionName, intensity: emotionIntensity},

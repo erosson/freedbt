@@ -16,18 +16,20 @@ function Page(p: {dispatch: Model.Dispatch}) {
     p.dispatch({type: 'entry.create', data})
     created.current = true
   }
+
   if (created.current) {
     return <Router.Redirect to="/" />
   }
-  if (!Model.isEntryType(params.type)) {
-    return <PageNotFound />
-  }
-  return (
-    <Layout>
-      <h4><Localized id={`create-${params.type}`} /></h4>
-      <Form type={params.type} onSubmit={onSubmit} />
-    </Layout>
-  );
+  return Model.EntryTypeCodec.decode(params.type)
+  .caseOf({
+    Right: (t: Model.EntryType) => (
+      <Layout>
+        <h4><Localized id={`create-${t}`} /></h4>
+        <Form type={t} onSubmit={onSubmit} />
+      </Layout>
+    ),
+    Left: () => <PageNotFound />,
+  })
 }
 
 export function MemoryComponent({state, dispatch}: {state: DBMemory.State, dispatch: Model.Dispatch}) {
