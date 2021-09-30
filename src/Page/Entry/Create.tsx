@@ -9,11 +9,11 @@ import PageNotFound from '../NotFound'
 import { Localized } from '@fluent/react';
 import Layout from '../../View/Layout'
 
-function Page(p: {dispatch: Model.Dispatch}) {
-  const params = Router.useParams<{type: string}>()
+function Page(p: { dispatch: Model.Dispatch }) {
+  const params = Router.useParams<{ type: string }>()
   const created = React.useRef(false)
   const onSubmit = (data: Model.Entry) => {
-    p.dispatch({type: 'entry.create', data})
+    p.dispatch({ type: 'entry.create', data })
     created.current = true
   }
 
@@ -21,24 +21,24 @@ function Page(p: {dispatch: Model.Dispatch}) {
     return <Router.Redirect to="/" />
   }
   return Model.EntryTypeCodec.decode(params.type)
-  .caseOf({
-    Right: (t: Model.EntryType) => (
-      <Layout>
-        <h4><Localized id={`create-${t}`} /></h4>
-        <Form type={t} onSubmit={onSubmit} />
-      </Layout>
-    ),
-    Left: () => <PageNotFound />,
-  })
+    .caseOf({
+      Right: (t: Model.EntryType) => (
+        <Layout>
+          <h4><Localized id={`create-${t}`} /></h4>
+          <Form type={t} onSubmit={onSubmit} />
+        </Layout>
+      ),
+      Left: () => <PageNotFound />,
+    })
 }
 
-export function MemoryComponent({state, dispatch}: {state: DBMemory.State, dispatch: Model.Dispatch}) {
+export function MemoryComponent({ state, dispatch }: { state: DBMemory.State, dispatch: Model.Dispatch }) {
   return <Page dispatch={dispatch} />
 }
-export function DexieComponent({db, dispatch}: {db: Dexie, dispatch: Model.Dispatch}) {
+export function DexieComponent({ db, dispatch }: { db: Dexie, dispatch: Model.Dispatch }) {
   return <Page dispatch={dispatch} />
 }
-export function UserbaseComponent({entries, dispatch}: {entries: Array<DBUserbase.Entry>, dispatch: Model.Dispatch}) {
+export function UserbaseComponent({ entries, dispatch }: { entries: Array<DBUserbase.Entry>, dispatch: Model.Dispatch }) {
   return (
     <DBUserbase.Wall loading="page.create" loggedOut={true}>
       <Page dispatch={dispatch} />

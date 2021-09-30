@@ -5,6 +5,7 @@ import * as Router from 'react-router-dom'
 import * as RemoteData from '@abraham/remotedata'
 import { Maybe } from 'purify-ts/Maybe'
 
+import * as L from '../../gen/localization'
 import * as Util from '../../Util'
 import * as Model from '../../Model'
 import * as DBMemory from '../../DB/Memory'
@@ -33,10 +34,10 @@ function Page(p: { dispatch: Model.Dispatch, id: string, entry: Model.Entry }) {
       <h4><Localized id={`edit-${p.entry.type}`} vars={{ id: p.id }} /></h4>
       <div>
         <Entry {...p} />
-        <div><Localized id="created-at" vars={{ date: p.entry.createdAt }} /></div>
-        <div><Localized id="updated-at" vars={{ date: p.entry.updatedAt }} /></div>
+        <div><L.CreatedAt vars={{ date: p.entry.createdAt }} /></div>
+        <div><L.UpdatedAt vars={{ date: p.entry.updatedAt }} /></div>
       </div>
-      <button className="btn-danger" onClick={onDelete}><Localized id="delete-entry-button" /></button>
+      <button className="btn-danger" onClick={onDelete}><L.DeleteEntryButton /></button>
     </Layout>
   );
 }

@@ -1,9 +1,9 @@
 import React from 'react'
-import { Localized } from '@fluent/react';
 import Dexie from 'dexie'
 import { Link } from 'react-router-dom'
 import * as RemoteData from '@abraham/remotedata'
 
+import * as L from '../../gen/localization'
 import * as Util from '../../Util'
 import * as Model from '../../Model'
 import * as DBMemory from '../../DB/Memory'
@@ -15,18 +15,18 @@ import Fatal from '../../View/Fatal'
 function Page(p: { dispatch: Model.Dispatch, entries: Array<[string, Model.Entry]> }) {
   return (
     <Layout>
-      <p><Link to={`/entries/create/journal`}><Localized id="create-journal" /></Link></p>
-      <p><Link to={`/entries/create/cbt`}><Localized id="create-cbt" /></Link></p>
-      <p><Link to={`/entries/create/dbt-emotion-regulation-5`}><Localized id="create-dbt-emotion-regulation-5" /></Link></p>
+      <p><Link to={`/entries/create/journal`}><L.CreateJournal /></Link></p>
+      <p><Link to={`/entries/create/cbt`}><L.CreateCbt /></Link></p>
+      <p><Link to={`/entries/create/dbt-emotion-regulation-5`}><L.CreateDbtEmotionRegulation5 /></Link></p>
       <ul>
         {p.entries.map(([id, entry]) => (
           <li key={id}>
-            <Link to={`/entries/${id}`}><Localized id="edit-entry" vars={{ id }} /></Link>
+            <Link to={`/entries/${id}`}><L.EditEntry vars={{ id }} /></Link>
             <Entry entry={entry} />
           </li>
         )).reverse()}
       </ul>
-      <p><Link to={`/settings`}><Localized id="settings-link" /></Link></p>
+      <p><Link to={`/settings`}><L.SettingsLink /></Link></p>
     </Layout>
   );
 }

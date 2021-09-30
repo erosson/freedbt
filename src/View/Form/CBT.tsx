@@ -1,10 +1,12 @@
 import React from 'react'
-import * as Model from '../../Model'
 import { Localized } from '@fluent/react';
+
+import * as L from '../../gen/localization'
+import * as Model from '../../Model'
 
 type Entry = Model.CBTEntry
 
-function CBTForm(p: {entry?: Entry, onSubmit: (e:Entry) => void}) {
+function CBTForm(p: { entry?: Entry, onSubmit: (e: Entry) => void }) {
   const [problem, setProblem] = React.useState(p.entry?.problem || '')
   const [distortions, setDistortions] = React.useState(p.entry?.distortions || new Set<Model.Distortion>([]))
   const [challenge, setChallenge] = React.useState(p.entry?.challenge || '')
@@ -35,15 +37,15 @@ function CBTForm(p: {entry?: Entry, onSubmit: (e:Entry) => void}) {
     <form onSubmit={onSubmit}>
       <ul>
         <li>
-          <label htmlFor="problem"><Localized id="cbt-problem" /></label>
+          <label htmlFor="problem"><L.CbtProblem /></label>
           <div>
-            <Localized id="cbt-problem-body" attrs={{placeholder: true}}>
-              <textarea id="problem" value={problem} onChange={(event) => setProblem(event.target.value)} style={{width: '100%', maxWidth: '80em', height: '10em'}} />
-            </Localized>
+            <L.CbtProblemBody attrs={{ placeholder: true }}>
+              <textarea id="problem" value={problem} onChange={(event) => setProblem(event.target.value)} style={{ width: '100%', maxWidth: '80em', height: '10em' }} />
+            </L.CbtProblemBody>
           </div>
         </li>
         <li>
-          <label><Localized id="cbt-distortions" /></label>
+          <label><L.CbtDistortions /></label>
           {Object.values(Model.Distortion).map(distortion => (
             <div key={distortion}>
               <label htmlFor={`distortion-${distortion}`}>
@@ -58,28 +60,28 @@ function CBTForm(p: {entry?: Entry, onSubmit: (e:Entry) => void}) {
           ))}
         </li>
         <li>
-          <label htmlFor="challenge"><Localized id="cbt-challenge" /></label>
+          <label htmlFor="challenge"><L.CbtChallenge /></label>
           <div>
-            <Localized id="cbt-challenge-body" attrs={{placeholder: true}}>
-              <textarea id="challenge" value={challenge} onChange={(event) => setChallenge(event.target.value)} style={{width: '100%', maxWidth: '80em', height: '10em'}} />
-            </Localized>
+            <L.CbtChallengeBody attrs={{ placeholder: true }}>
+              <textarea id="challenge" value={challenge} onChange={(event) => setChallenge(event.target.value)} style={{ width: '100%', maxWidth: '80em', height: '10em' }} />
+            </L.CbtChallengeBody>
           </div>
         </li>
         <li>
-          <label htmlFor="alternative"><Localized id="cbt-alternative" /></label>
+          <label htmlFor="alternative"><L.CbtAlternative /></label>
           <div>
-            <Localized id="cbt-alternative-body" attrs={{placeholder: true}}>
-              <textarea id="alternative" value={alternative} onChange={(event) => setAlternative(event.target.value)} style={{width: '100%', maxWidth: '80em', height: '10em'}} />
-            </Localized>
+            <L.CbtAlternativeBody attrs={{ placeholder: true }}>
+              <textarea id="alternative" value={alternative} onChange={(event) => setAlternative(event.target.value)} style={{ width: '100%', maxWidth: '80em', height: '10em' }} />
+            </L.CbtAlternativeBody>
           </div>
         </li>
       </ul>
-      <button type="submit"><Localized id="submit" /></button>
+      <button type="submit"><L.Submit /></button>
     </form>
   )
 }
 
-function cbtIcon(distortion: Model.Distortion):string {
+function cbtIcon(distortion: Model.Distortion): string {
   switch (distortion) {
     case Model.Distortion.ALL_OR_NOTHING: return '🌓'
     case Model.Distortion.CATASTROPHIZING: return '🤯'

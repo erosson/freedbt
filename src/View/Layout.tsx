@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Localized } from '@fluent/react';
+
+import * as L from '../gen/localization'
 import * as Model from '../Model'
 import * as Util from '../Util'
 
@@ -19,7 +20,7 @@ function Layout(p: { children: React.ReactNode }) {
 
   return (
     <div className="app-root">
-      <h1><Link to="/"><Localized id="title" /></Link></h1>
+      <h1><Link to="/"><L.Title /></Link></h1>
       {p.children}
     </div>
   )
