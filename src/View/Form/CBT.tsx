@@ -1,7 +1,7 @@
 import React from 'react'
 import { Localized } from '@fluent/react';
 
-import * as L from '../../gen/localization'
+import { main as L } from '../../gen/localization'
 import * as Model from '../../Model'
 
 type Entry = Model.CBTEntry

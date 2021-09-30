@@ -1,11 +1,11 @@
 import React from 'react'
 import Layout from './Layout'
-import { Localized } from '@fluent/react';
+import { main as L } from '../gen/localization'
 
-function Loading(p: {phase: string}) {
+function Loading(p: { phase: string }) {
   return (
     <Layout>
-      <p title={p.phase}><Localized id="loading" /></p>
+      <p title={p.phase}><L.Loading /></p>
     </Layout>
   )
 }

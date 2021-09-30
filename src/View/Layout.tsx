@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import * as L from '../gen/localization'
+import { main as L } from '../gen/localization'
 import * as Model from '../Model'
 import * as Util from '../Util'
 

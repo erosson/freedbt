@@ -34,7 +34,7 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "dev": "bash -c \"mkdir -p src/gen && fluent-typesafe --format=react src/locales/en-US/main.ftl > src/gen/localization.tsx\"",
+    "dev": "fluent-typesafe --format=react --out=./src/gen ./src/locales/en-US",
     "start": "yarn dev && craco start",
     "build": "yarn dev && craco build",
     "test": "yarn dev && craco test",

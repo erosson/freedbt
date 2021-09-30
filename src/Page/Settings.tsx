@@ -6,7 +6,7 @@ import * as Model from '../Model'
 import * as DBMemory from '../DB/Memory'
 import * as DBUserbase from '../DB/Userbase'
 import * as Util from '../Util'
-import * as L from '../gen/localization'
+import { main as L } from '../gen/localization'
 import Layout from '../View/Layout'
 import Loading from '../View/Loading'
 

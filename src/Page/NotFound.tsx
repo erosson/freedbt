@@ -4,7 +4,7 @@ import Dexie from 'dexie'
 import * as Model from '../Model'
 import * as DBMemory from '../DB/Memory'
 import * as DBUserbase from '../DB/Userbase'
-import * as L from '../gen/localization'
+import { main as L } from '../gen/localization'
 import Layout from '../View/Layout'
 
 export function Page(p: {}) {

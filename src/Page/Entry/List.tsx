@@ -3,7 +3,7 @@ import Dexie from 'dexie'
 import { Link } from 'react-router-dom'
 import * as RemoteData from '@abraham/remotedata'
 
-import * as L from '../../gen/localization'
+import { main as L } from '../../gen/localization'
 import * as Util from '../../Util'
 import * as Model from '../../Model'
 import * as DBMemory from '../../DB/Memory'

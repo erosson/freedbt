@@ -1,10 +1,10 @@
 import React from 'react'
 import * as Model from '../../Model'
-import { Localized } from '@fluent/react';
+import { main as L } from '../../gen/localization'
 
 type Entry = Model.JournalEntry
 
-function JournalForm(p: {entry?: Entry, onSubmit: (e:Entry) => void}) {
+function JournalForm(p: { entry?: Entry, onSubmit: (e: Entry) => void }) {
   const [body, setBody] = React.useState(p.entry?.body || '')
   function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault()
@@ -20,12 +20,12 @@ function JournalForm(p: {entry?: Entry, onSubmit: (e:Entry) => void}) {
   return (
     <form onSubmit={onSubmit}>
       <div>
-        <Localized id="journal-body" attrs={{placeholder: true}}>
-          <textarea id="entry" value={body} onChange={(event) => setBody(event.target.value)} style={{width: '100%', maxWidth: '80em', height: '10em'}} />
-        </Localized>
+        <L.JournalBody attrs={{ placeholder: true }}>
+          <textarea id="entry" value={body} onChange={(event) => setBody(event.target.value)} style={{ width: '100%', maxWidth: '80em', height: '10em' }} />
+        </L.JournalBody>
       </div>
       <button type="submit">
-        <Localized id="submit" />
+        <L.Submit />
       </button>
     </form>
   )

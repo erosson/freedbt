@@ -5,7 +5,7 @@ import * as Router from 'react-router-dom'
 import * as RemoteData from '@abraham/remotedata'
 import { Maybe } from 'purify-ts/Maybe'
 
-import * as L from '../../gen/localization'
+import { main as L } from '../../gen/localization'
 import * as Util from '../../Util'
 import * as Model from '../../Model'
 import * as DBMemory from '../../DB/Memory'

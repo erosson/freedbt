@@ -1,12 +1,13 @@
 import React from 'react'
+import { Localized } from '@fluent/react';
+import Dexie from 'dexie'
+import * as Router from 'react-router-dom'
+
 import * as Model from '../../Model'
 import * as DBMemory from '../../DB/Memory'
 import * as DBUserbase from '../../DB/Userbase'
-import Dexie from 'dexie'
-import * as Router from 'react-router-dom'
 import Form from '../../View/Form'
 import PageNotFound from '../NotFound'
-import { Localized } from '@fluent/react';
 import Layout from '../../View/Layout'
 
 function Page(p: { dispatch: Model.Dispatch }) {

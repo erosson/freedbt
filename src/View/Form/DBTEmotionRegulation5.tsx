@@ -1,7 +1,7 @@
 import React from 'react'
 
 import * as Model from '../../Model'
-import * as L from '../../gen/localization'
+import { main as L } from '../../gen/localization'
 
 type Entry = Model.DBTEmotionRegulation5Entry
 
