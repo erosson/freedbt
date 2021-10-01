@@ -1,9 +1,9 @@
 import React from 'react'
-import {BrowserRouter as Router} from 'react-router-dom'
-import { LocalizationProvider } from '@fluent/react';
+import { BrowserRouter as Router } from 'react-router-dom'
+import { LocalizationProvider, ReactLocalization } from '@fluent/react';
 import l10n from './Locale'
 
-import DBAutomerge from './DB/Automerge'
+// import DBAutomerge from './DB/Automerge'
 import DBMemory from './DB/Memory'
 import DBDexie from './DB/Dexie'
 import DBUserbase from './DB/Userbase'
@@ -16,7 +16,7 @@ export function App() {
     return (
       <Router basename="/db/automerge">
         <AppRoutes>
-          <DBAutomerge routes={Routes.routes} />
+          {/* <DBAutomerge routes={Routes.routes} /> */}
           db-automerge
         </AppRoutes>
       </Router>
@@ -78,10 +78,10 @@ export function App() {
     </Router>
   )
 }
-export function AppRoutes(p: {children?: React.ReactNode}) {
-        // <DBDexie routes={Routes.routes} />
+export function AppRoutes(p: { children?: React.ReactNode, l10n?: ReactLocalization }) {
+  // <DBDexie routes={Routes.routes} />
   return (
-    <LocalizationProvider l10n={l10n}>
+    <LocalizationProvider l10n={p.l10n || l10n}>
       {p.children ? <>{p.children}</> :
         <DBDexie routes={Routes.routes} />
       }

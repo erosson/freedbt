@@ -1,7 +1,7 @@
 import React from 'react'
 import Dexie from 'dexie'
 import { Link } from 'react-router-dom'
-import * as RemoteData from '@abraham/remotedata'
+import * as RemoteData from '../../vendor/@abraham/remotedata'
 
 import { main as L } from '../../gen/localization'
 import * as Util from '../../Util'
@@ -64,7 +64,7 @@ export function DexieComponent({ db, dispatch }: { db: Dexie, dispatch: Model.Di
     let vals: Model.Entry[] = await coll.toArray()
     return keys.map((k, i) => [k as string, vals[i]])
   }, [])
-  console.log('list', state)
+  // console.log('list', state)
 
   return RemoteData.fold(
     () => <Loading phase="page.list.init" />,

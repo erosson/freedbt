@@ -2,8 +2,8 @@ import React from 'react'
 import { Localized, useLocalization } from '@fluent/react';
 import Dexie from 'dexie'
 import * as Router from 'react-router-dom'
-import * as RemoteData from '@abraham/remotedata'
 import { Maybe } from 'purify-ts/Maybe'
+import * as RemoteData from '../../vendor/@abraham/remotedata'
 
 import { main as L } from '../../gen/localization'
 import * as Util from '../../Util'

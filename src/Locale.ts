@@ -6,7 +6,6 @@ import { negotiateLanguages } from '@fluent/langneg'
 import { FluentBundle, FluentResource } from '@fluent/bundle'
 import { ReactLocalization } from '@fluent/react'
 
-// TODO this fails completely in tests
 // TODO this will get very ugly once we support multiple languages
 /* eslint import/no-webpack-loader-syntax: off */
 import enUSMain from '!!raw-loader!./locales/en-US/main.ftl'

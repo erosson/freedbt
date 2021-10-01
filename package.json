@@ -70,7 +70,7 @@
   },
   "jest": {
     "moduleNameMapper": {
-      "^!!raw-loader!.*": "jest-raw-loader"
+      "\\.ftl$": "jest-raw-loader"
     }
   },
   "devDependencies": {

@@ -3,7 +3,7 @@ import Dexie from 'dexie'
 import 'dexie-observable'
 import 'dexie-syncable' // required for uuid primary keys (`$$`)
 import * as Router from 'react-router-dom'
-import * as RemoteData from '@abraham/remotedata'
+import * as RemoteData from '../vendor/@abraham/remotedata'
 
 import * as Model from '../Model'
 import * as Util from '../Util'
@@ -31,7 +31,7 @@ export function DexieSettings(p: { db: Dexie, children: React.ReactNode }) {
   const settings: RemoteData.RemoteData<unknown, Model.Settings> = Util.decodeLiveQuery(Model.SettingsCodec.Dexie, async () => {
     return await p.db.table('settings').toCollection().first() || Model.initSettings()
   }, [])
-  console.log('settings', settings)
+  // console.log('settings', settings)
 
   return RemoteData.fold(
     () => <Loading phase="dexie.settings.init" />,

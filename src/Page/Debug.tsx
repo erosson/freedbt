@@ -1,7 +1,7 @@
 import React from 'react'
 import Dexie from 'dexie'
-import * as RemoteData from '@abraham/remotedata'
 import * as C from 'purify-ts/Codec'
+import * as RemoteData from '../vendor/@abraham/remotedata'
 
 import * as Util from '../Util'
 import * as Model from '../Model'
