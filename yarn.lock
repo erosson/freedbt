@@ -5351,7 +5351,7 @@ flatten@^1.0.2:
 
 fluent-typesafe@erosson/fluent-typesafe#master:
   version "0.0.1"
-  resolved "https://codeload.github.com/erosson/fluent-typesafe/tar.gz/d13939a9969156131213a64a2b82255b3c33dc7c"
+  resolved "https://codeload.github.com/erosson/fluent-typesafe/tar.gz/0b892c0d472b307cdc3c00bdbb410f0e221f4a58"
   dependencies:
     "@fluent/syntax" "^0.18.0"
     glob "^7.2.0"

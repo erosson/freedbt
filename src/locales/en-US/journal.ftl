@@ -2,5 +2,5 @@
 ## https://freedbt.erosson.org/entries/<n>
 ## https://freedbt.erosson.org/entries/create/journal
 
-body =
+journal-body =
   .placeholder = Dear diary...
