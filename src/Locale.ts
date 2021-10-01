@@ -7,13 +7,17 @@ import { FluentBundle, FluentResource } from '@fluent/bundle'
 import { ReactLocalization } from '@fluent/react'
 
 // TODO this fails completely in tests
-// eslint-disable-next-line import/no-webpack-loader-syntax
-import enUS from '!!raw-loader!./locales/en-US/main.ftl'
+// TODO this will get very ugly once we support multiple languages
+/* eslint import/no-webpack-loader-syntax: off */
+import enUSMain from '!!raw-loader!./locales/en-US/main.ftl'
+import enUSCbt from '!!raw-loader!./locales/en-US/cbt.ftl'
+import enUSJournal from '!!raw-loader!./locales/en-US/journal.ftl'
+import enUSDbtEmotionRegulation5 from '!!raw-loader!./locales/en-US/dbt-emotion-regulation-5.ftl'
 
 // Store all translations as a simple object which is available
 // synchronously and bundled with the rest of the code.
-const RESOURCES: {[i:string]: FluentResource} = {
-  'en-US': new FluentResource(enUS),
+const RESOURCES: { [i: string]: FluentResource[] } = {
+  'en-US': [enUSMain, enUSCbt, enUSJournal, enUSDbtEmotionRegulation5].map(r => new FluentResource(r)),
 };
 
 // A generator function responsible for building the sequence
@@ -29,7 +33,9 @@ function* generateBundles(userLocales: readonly string[]) {
 
   for (const locale of currentLocales) {
     const bundle = new FluentBundle(locale);
-    bundle.addResource(RESOURCES[locale]);
+    for (let r of RESOURCES[locale]) {
+      bundle.addResource(r);
+    }
     yield bundle;
   }
 }

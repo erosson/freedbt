@@ -1,7 +1,7 @@
 import React from 'react'
 import { Localized } from '@fluent/react';
 
-import { main as L } from '../../gen/localization'
+import { main as L, cbt as LP } from '../../gen/localization'
 import * as Model from '../../Model'
 
 type Entry = Model.CBTEntry
@@ -37,42 +37,42 @@ function CBTForm(p: { entry?: Entry, onSubmit: (e: Entry) => void }) {
     <form onSubmit={onSubmit}>
       <ul>
         <li>
-          <label htmlFor="problem"><L.CbtProblem /></label>
+          <label htmlFor="problem"><LP.Problem /></label>
           <div>
-            <L.CbtProblemBody attrs={{ placeholder: true }}>
+            <LP.ProblemBody attrs={{ placeholder: true }}>
               <textarea id="problem" value={problem} onChange={(event) => setProblem(event.target.value)} style={{ width: '100%', maxWidth: '80em', height: '10em' }} />
-            </L.CbtProblemBody>
+            </LP.ProblemBody>
           </div>
         </li>
         <li>
-          <label><L.CbtDistortions /></label>
+          <label><LP.Distortions /></label>
           {Object.values(Model.Distortion).map(distortion => (
             <div key={distortion}>
               <label htmlFor={`distortion-${distortion}`}>
                 <div>
                   <input type="checkbox" id={`distortion-${distortion}`} checked={distortions.has(distortion)} onChange={onDistortionChecked(distortion)} />
                   {cbtIcon(distortion)}
-                  <Localized id={`cbt-distortion-${distortion}`} />
+                  <Localized id={`distortion-${distortion}`} />
                 </div>
-                <div><i><Localized id={`cbt-distortion-example-${distortion}`} /></i></div>
+                <div><i><Localized id={`distortion-example-${distortion}`} /></i></div>
               </label>
             </div>
           ))}
         </li>
         <li>
-          <label htmlFor="challenge"><L.CbtChallenge /></label>
+          <label htmlFor="challenge"><LP.Challenge /></label>
           <div>
-            <L.CbtChallengeBody attrs={{ placeholder: true }}>
+            <LP.ChallengeBody attrs={{ placeholder: true }}>
               <textarea id="challenge" value={challenge} onChange={(event) => setChallenge(event.target.value)} style={{ width: '100%', maxWidth: '80em', height: '10em' }} />
-            </L.CbtChallengeBody>
+            </LP.ChallengeBody>
           </div>
         </li>
         <li>
-          <label htmlFor="alternative"><L.CbtAlternative /></label>
+          <label htmlFor="alternative"><LP.Alternative /></label>
           <div>
-            <L.CbtAlternativeBody attrs={{ placeholder: true }}>
+            <LP.AlternativeBody attrs={{ placeholder: true }}>
               <textarea id="alternative" value={alternative} onChange={(event) => setAlternative(event.target.value)} style={{ width: '100%', maxWidth: '80em', height: '10em' }} />
-            </L.CbtAlternativeBody>
+            </LP.AlternativeBody>
           </div>
         </li>
       </ul>

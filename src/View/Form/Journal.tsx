@@ -1,6 +1,6 @@
 import React from 'react'
 import * as Model from '../../Model'
-import { main as L } from '../../gen/localization'
+import { main as L, journal as LP } from '../../gen/localization'
 
 type Entry = Model.JournalEntry
 
@@ -20,9 +20,9 @@ function JournalForm(p: { entry?: Entry, onSubmit: (e: Entry) => void }) {
   return (
     <form onSubmit={onSubmit}>
       <div>
-        <L.JournalBody attrs={{ placeholder: true }}>
+        <LP.Body attrs={{ placeholder: true }}>
           <textarea id="entry" value={body} onChange={(event) => setBody(event.target.value)} style={{ width: '100%', maxWidth: '80em', height: '10em' }} />
-        </L.JournalBody>
+        </LP.Body>
       </div>
       <button type="submit">
         <L.Submit />
